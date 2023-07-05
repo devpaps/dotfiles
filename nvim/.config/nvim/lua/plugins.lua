@@ -70,6 +70,12 @@ return packer.startup({ function(use)
   use 'nvim-treesitter/nvim-treesitter-context' -- Displays the current code context based on tree-sitter
 
   -- Rust
+  use {
+    'saecki/crates.nvim',
+    tag = 'v0.3.0',
+    requires = { 'nvim-lua/plenary.nvim' },
+    config = "require('plugins.crates')",
+}
   use { 'simrat39/rust-tools.nvim', config = "require('plugins.rust')" } -- Rust tooling for Neovim, including inlay hints, code actions, and more
 
   use { 'j-hui/fidget.nvim', config = "require('plugins.fidget')", tag = 'legacy'}      -- Displays LSP loading status

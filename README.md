@@ -1,10 +1,10 @@
 <div align="center">
   
-# devpaps dotfiles
+# -- devpaps dotfiles --
 
 This repository contains my personal dotfiles. They are stored here for convenience and can be used by anyone interested. However, they are tailored to my own needs and preferences.
 
-![platform](https://img.shields.io/badge/platform-macOS%2FLinux-blue)
+![platform](https://img.shields.io/badge/platform-Linux-blue)
 ![last commit](https://img.shields.io/github/last-commit/devpaps/dotfiles)
 
 ![neovim](https://i.imgur.com/KoS3Dgw.png)
