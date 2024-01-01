@@ -1,7 +1,3 @@
--- local utils = require('utils')
-local nvim_tree_events = require('nvim-tree.events')
-local bufferline_state = require('bufferline.api')
-
 local TREE_WIDTH = 40
 
 local git_icons = {
@@ -149,16 +145,8 @@ require('nvim-tree').setup({
   view = {
     -- width of the window, can be either a number (columns) or a string in `%`
     width = TREE_WIDTH,
-    hide_root_folder = false,
     -- side of the tree, can be one of 'left' | 'right' | 'top' | 'bottom'
     side = "left",
-    mappings = {
-      -- custom only false will merge the list with the default mappings
-      -- if true, it will only use your list to set the mappings
-      custom_only = true,
-      -- list of mappings to set on the tree manually
-      list = keymappings,
-    },
     number = false,
     relativenumber = false,
   },

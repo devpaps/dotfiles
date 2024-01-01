@@ -5,6 +5,9 @@ local icons = require("icons")
 M42 = {
   icons = icons,
   colorscheme = 'catppuccin-mocha',
+  lsp = {
+    virtual_text = true
+  },
   ui = {
     float = {
       border = 'rounded',

@@ -42,7 +42,7 @@ return packer.startup({ function(use)
   -- Packer can manage it self
   use 'wbthomason/packer.nvim'                                                                           -- A plugin manager for Neovim
   use 'lewis6991/impatient.nvim'                                                                         -- Speeds up Neovim's startup time
-  use "nathom/filetype.nvim"                                                                             -- Faster filetype detection
+  -- use "nathom/filetype.nvim"                                                                             -- Faster filetype detection
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = "require('plugins.treesitter')" } -- Tree-sitter integration for Neovim, providing better syntax highlighting and code navigation
   use 'neovim/nvim-lspconfig'                                                                            -- A collection of common configurations for Neovim's built-in Language Server Protocol (LSP) support
   use { 'goolord/alpha-nvim', config = "require('plugins.alpha')" }                                      -- A start screen plugin for Neovim
@@ -80,6 +80,14 @@ return packer.startup({ function(use)
 
   use { 'j-hui/fidget.nvim', config = "require('plugins.fidget')", tag = 'legacy'}      -- Displays LSP loading status
 
+  use {
+    "pmizio/typescript-tools.nvim",
+    requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    config = function()
+      require("typescript-tools").setup {}
+    end,
+  }
+
   -- Themes
   -- use {'bluz71/vim-nightfly-guicolors'}
   -- use {'folke/tokyonight.nvim'}
@@ -112,7 +120,7 @@ return packer.startup({ function(use)
   }
 
   -- indent line
-  use { 'lukas-reineke/indent-blankline.nvim', config = "require('plugins.indent')" }
+  use { 'lukas-reineke/indent-blankline.nvim', main = "ibl", config = "require('plugins.indent')" }
 
   -- autopair
   use {
@@ -123,7 +131,7 @@ return packer.startup({ function(use)
   }
 
   --LSP
-  use { "jose-elias-alvarez/null-ls.nvim", config = "require('lsp.null-ls')" } -- for formatters and linters
+  -- use { "nvimtools/none-ls.nvim", config = "require('lsp.null-ls')" } -- for formatters and linters
 
   -- autocomplete
   use { 'hrsh7th/nvim-cmp', config = "require('plugins.nvim-cmp')" }

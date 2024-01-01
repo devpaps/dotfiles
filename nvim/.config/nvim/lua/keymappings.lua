@@ -57,10 +57,18 @@ keymap("n", "<Leader>pw", "<CMD>Telescope grep_string<CR><ESC>", { noremap = tru
 keymap("n", "<Leader>pf", "<CMD>lua require'telescope.builtin'.find_files{}<CR><ESC>", { noremap = true })
 
 -- Git
-keymap("n", "<Leader>gla", "<CMD>lua require('plugins.telescope').my_git_commits()<CR>",
-  { noremap = true, silent = true })
-keymap("n", "<Leader>glc", "<CMD>lua require('plugins.telescope').my_git_bcommits()<CR>",
-  { noremap = true, silent = true })
+keymap(
+	"n",
+	"<Leader>gla",
+	"<CMD>lua require('plugins.telescope').my_git_commits()<CR>",
+	{ noremap = true, silent = true }
+)
+keymap(
+	"n",
+	"<Leader>glc",
+	"<CMD>lua require('plugins.telescope').my_git_bcommits()<CR>",
+	{ noremap = true, silent = true }
+)
 
 -- Buffers
 keymap("n", "<Tab>", ":BufferNext<CR>", { noremap = true, silent = true })
@@ -99,20 +107,20 @@ keymap("v", "X", '"_X', { noremap = true, silent = true })
 keymap("v", "p", '"_dP', { noremap = true, silent = true })
 
 -- Avoid issues because of remapping <c-a> and <c-x> below
-vim.cmd [[
+vim.cmd([[
   nnoremap <Plug>SpeedDatingFallbackUp <c-a>
   nnoremap <Plug>SpeedDatingFallbackDown <c-x>
-]]
+]])
 
 -- Quickfix
 keymap("n", "<Space>,", ":cp<CR>", { silent = true })
 keymap("n", "<Space>.", ":cn<CR>", { silent = true })
 
 -- Open links under cursor in browser with gx
-if vim.fn.has('macunix') == 1 then
-  keymap("n", "gx", "<cmd>silent execute '!open ' . shellescape('<cWORD>')<CR>", { silent = true })
+if vim.fn.has("macunix") == 1 then
+	keymap("n", "gx", "<cmd>silent execute '!open ' . shellescape('<cWORD>')<CR>", { silent = true })
 else
-  keymap("n", "gx", "<cmd>silent execute '!xdg-open ' . shellescape('<cWORD>')<CR>", { silent = true })
+	keymap("n", "gx", "<cmd>silent execute '!xdg-open ' . shellescape('<cWORD>')<CR>", { silent = true })
 end
 -- if vim.fn.has("mac") == 1 then
 --   keymap("n", "gx", '<Cmd>call jobstart(["open", expand("<cfile>")], {"detach": v:true})<CR>', { silent = true })
