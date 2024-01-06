@@ -41,13 +41,19 @@ return {
 		end,
 	},
 	{
+		-- Fidget shows the current LSP server and its status in the statusline
+		"j-hui/fidget.nvim",
+		config = function()
+			require("fidget").setup({})
+		end,
+	},
+	{
 		-- LSP Configuration & Plugins
 		"neovim/nvim-lspconfig",
 		event = "BufReadPre",
 		dependencies = {
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-			"j-hui/fidget.nvim",
 			"folke/neodev.nvim",
 		},
 		config = function()
