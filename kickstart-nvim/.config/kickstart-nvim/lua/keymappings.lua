@@ -5,7 +5,7 @@ local opts = { noremap = true, silent = true }
 -- Buffers
 keymap("n", "<Tab>", ":BufferLineCycleNext<CR>", opts)
 keymap("n", "<S-Tab>", ":BufferLineCyclePrev<CR>", opts)
-keymap("n", "<S-q>", ":bd<CR>", opts)
+keymap("n", "<S-q>", "<cmd>lua require('mini.bufremove').delete(0, false)<CR>", opts)
 
 -- Better window movment
 keymap("n", "<C-h>", "<C-w>h", opts)
