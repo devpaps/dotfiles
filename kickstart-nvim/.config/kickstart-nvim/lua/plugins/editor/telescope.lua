@@ -1,5 +1,6 @@
 return {
-	{ "cljoly/telescope-repo.nvim" },
+	"cljoly/telescope-repo.nvim",
+	"nvim-telescope/telescope-ui-select.nvim",
 	{
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.5",
@@ -66,6 +67,7 @@ return {
 			require("telescope").load_extension("repo")
 			require("telescope").load_extension("projects")
 			require("telescope").load_extension("lazygit")
+			require("telescope").load_extension("ui-select")
 
 			local function project_files()
 				local opts = {} -- define here if you want to define something

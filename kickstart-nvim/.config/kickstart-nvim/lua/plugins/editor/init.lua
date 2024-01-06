@@ -1,4 +1,19 @@
 return {
+	"kdheepak/lazygit.nvim",
+	lazy = true,
+	dependencies = {
+		"nvim-lua/plenary.nvim",
+	},
+	{
+		"saecki/crates.nvim",
+		event = { "BufRead Cargo.toml" },
+		tag = "stable",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		config = function()
+			require("crates").setup()
+		end,
+	},
+
 	{ "wakatime/vim-wakatime", lazy = true },
 
 	-- A plugin for previewing markdown files using the glow CLI
