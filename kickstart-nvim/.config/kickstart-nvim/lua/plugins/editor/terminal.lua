@@ -1,7 +1,7 @@
 return {
 	{
 		"akinsho/nvim-toggleterm.lua",
-		lazy = true,
+		event = "VeryLazy",
 		version = "*",
 		config = true,
 		cmd = "ToggleTerm",

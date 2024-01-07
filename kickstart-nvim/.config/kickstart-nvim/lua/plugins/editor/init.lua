@@ -1,9 +1,13 @@
 return {
-	"kdheepak/lazygit.nvim",
-	lazy = true,
-	dependencies = {
-		"nvim-lua/plenary.nvim",
+	{
+		"kdheepak/lazygit.nvim",
+		event = "VeryLazy",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
 	},
+	-- This plugin is used in Rust projects to show the current crate's
+	-- documentation in a floating window using none-ls
 	{
 		"saecki/crates.nvim",
 		event = { "BufRead Cargo.toml" },
@@ -13,13 +17,12 @@ return {
 			require("crates").setup()
 		end,
 	},
-
 	{ "wakatime/vim-wakatime", lazy = true },
 
 	-- A plugin for previewing markdown files using the glow CLI
 	{
 		"ellisonleao/glow.nvim",
-		lazy = true,
+		event = "VeryLazy",
 		config = true,
 		cmd = "Glow",
 		opts = {

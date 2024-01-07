@@ -2,6 +2,7 @@ return {
 	-- better diagnostics list and others
 	{
 		"folke/trouble.nvim",
+		event = "VeryLazy",
 		cmd = { "TroubleToggle", "Trouble" },
 		opts = {
 			use_diagnostic_signs = true,

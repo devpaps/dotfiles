@@ -1,5 +1,5 @@
 return {
-	{ "echasnovski/mini.bufremove", event = "BufRead" },
+	{ "echasnovski/mini.bufremove", event = "VeryLazy" },
 	{
 		"akinsho/bufferline.nvim",
 		event = "VeryLazy",
