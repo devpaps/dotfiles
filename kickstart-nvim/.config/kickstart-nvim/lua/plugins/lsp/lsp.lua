@@ -43,6 +43,7 @@ return {
 	{
 		-- Fidget shows the current LSP server and its status in the statusline
 		"j-hui/fidget.nvim",
+		event = "BufReadPre",
 		config = function()
 			require("fidget").setup({})
 		end,
@@ -62,13 +63,13 @@ return {
 			local function setup_servers()
 				local servers = {
 					"tsserver",
+					"eslint",
 					"lua_ls",
 					"marksman",
 					"html",
 					"cssls",
 					"jsonls",
 					"sqlls",
-					"volar",
 					"bashls",
 					"jdtls",
 					"rust_analyzer",
@@ -80,11 +81,12 @@ return {
 			end
 
 			local lua_ls_settings = {
-				workspace = { checkThirdParty = false },
+				workspace = { checkThirdParty = false, library = vim.api.nvim_get_runtime_file("", true) },
 				telemetry = { enable = false },
 				diagnostics = {
 					disable = { "missing-fields", "incomplete-signature-doc", "trailing-space" },
 					groupSeverity = { strong = "Warning", strict = "Warning" },
+					globals = { "vim", "require" },
 				},
 				completion = { workspaceWord = true, callSnippet = "Both" },
 				hover = { expandAlias = false },
@@ -96,6 +98,7 @@ return {
 					semicolon = "Disable",
 					arrayIndex = "Disable",
 				},
+				runtime = { version = "LuaJIT" },
 				type = { castNumberToInteger = true },
 				format = {
 					enable = true,
@@ -131,6 +134,12 @@ return {
 			}
 
 			local tsserver_settings = {
+				-- capabilities = require("cmp_nvim_lsp").default_capabilities(
+				-- 	vim.lsp.protocol.make_client_capabilities()
+				-- ),
+				-- on_attach = function(client)
+				-- 	client.resolved_capabilities.document_formatting = false
+				-- end,
 				single_file_support = false,
 				settings = {
 					typescript = {
@@ -162,7 +171,22 @@ return {
 
 			lspconfig.lua_ls.setup({ settings = lua_ls_settings })
 			lspconfig.rust_analyzer.setup({ settings = rust_analyzer_settings })
-			lspconfig.tsserver.setup({ settings = tsserver_settings })
+			lspconfig.tsserver.setup({
+				settings = tsserver_settings,
+				-- on_attach = tsserver_settings.on_attach,
+				-- capabilities = tsserver_settings.capabilities,
+			})
+			lspconfig.eslint.setup({
+				settings = {
+					rootPath = vim.fn.getcwd(),
+				},
+				on_attach = function(client, bufnr)
+					vim.api.nvim_create_autocmd("BufWritePre", {
+						buffer = bufnr,
+						command = "EslintFixAll",
+					})
+				end,
+			})
 		end,
 	},
 }

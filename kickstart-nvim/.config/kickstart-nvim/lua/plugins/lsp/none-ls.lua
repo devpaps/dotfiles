@@ -1,6 +1,6 @@
 return {
 	"nvimtools/none-ls.nvim",
-	event = "BufReadPre",
+	event = "VeryLazy",
 	dependencies = { "mason.nvim" },
 	config = function()
 		local null_ls = require("null-ls")
@@ -13,7 +13,16 @@ return {
 		null_ls.setup({
 			sources = {
 				null_ls.builtins.formatting.stylua,
-				null_ls.builtins.formatting.prettierd,
+				null_ls.builtins.formatting.prettierd.with({
+					-- condition = function(utils)
+					-- 	return utils.has_file({
+					-- 		".prettierrc",
+					-- 		".prettierrc.json",
+					-- 		"prettier.config.js",
+					-- 		".prettierrc.js",
+					-- 	})
+					-- end,
+				}),
 				null_ls.builtins.diagnostics.eslint_d,
 				null_ls.builtins.completion.luasnip,
 			},
