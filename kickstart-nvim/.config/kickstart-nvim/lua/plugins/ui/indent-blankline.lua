@@ -1,7 +1,7 @@
 return {
 	{
 		"lukas-reineke/indent-blankline.nvim",
-		lazy = true,
+		event = "VeryLazy",
 		opts = {
 			indent = {
 				char = "│",
@@ -28,7 +28,7 @@ return {
 	},
 	{
 		"folke/flash.nvim",
-		lazy = true,
+		event = "VeryLazy",
 		opts = {},
   -- stylua: ignore
   keys = {
