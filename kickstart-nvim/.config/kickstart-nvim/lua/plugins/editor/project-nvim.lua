@@ -4,7 +4,8 @@ return {
 		event = "VeryLazy",
 		config = function()
 			require("project_nvim").setup({
-				manual_mode = true,
+				manual_mode = false,
+				detection_methods = { "lsp", "pattern" },
 				show_hidden = false,
 				silent_chdir = true,
 				datapath = vim.fn.stdpath("data"),
