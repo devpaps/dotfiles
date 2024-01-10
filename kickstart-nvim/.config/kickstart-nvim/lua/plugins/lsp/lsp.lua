@@ -187,6 +187,7 @@ return {
 					})
 				end,
 			})
+			lspconfig.lemminx.setup({})
 		end,
 	},
 }
