@@ -3,7 +3,7 @@
     monitor = 0
     follow = mouse
     width = 350
-    offset = 10x40
+    offset = 18x18
     progress_bar = true
     progress_bar_height = 10
     progress_bar_frame_width = 1
@@ -23,7 +23,7 @@
     font = JetBrains Mono Nerd Font Medium 10
     line_height = 0
     markup = full
-    format = "<span weight='bold'>%s</span>\n%b"
+    format = "<span weight='bold'>%s</span>\n%b %a"
     alignment = left
     vertical_alignment = center
     show_age_threshold = 60
@@ -36,7 +36,7 @@
     icon_position = left
     min_icon_size = 0
     max_icon_size = 48
-    icon_path = /home/eric/.local/share/icons/dunst
+    icon_path = /usr/share/icons/Adwaita/symbolic/status
     sticky_history = yes
     history_length = 20
     always_run_script = true
@@ -66,5 +66,6 @@
     background = "#11121DCC"
     foreground = "#EE6D85"
     frame_color = "#EE6D85"
-    timeout = -1
-    format = "<b>%s</b>\n%b"
+    timeout = 0
+    new_icon = dialog-warning-symbolic
+    format = "<b>%s</b>\n%b %a"
