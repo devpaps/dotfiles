@@ -81,31 +81,19 @@ return {
 			end
 
 			local lua_ls_settings = {
-				workspace = { checkThirdParty = false, library = vim.api.nvim_get_runtime_file("", true) },
-				telemetry = { enable = false },
-				diagnostics = {
-					disable = { "missing-fields", "incomplete-signature-doc", "trailing-space" },
-					groupSeverity = { strong = "Warning", strict = "Warning" },
-					globals = { "vim", "require" },
-				},
-				completion = { workspaceWord = true, callSnippet = "Both" },
-				hover = { expandAlias = false },
-				hint = {
-					enable = true,
-					setType = false,
-					paramType = true,
-					paramName = "Disable",
-					semicolon = "Disable",
-					arrayIndex = "Disable",
-				},
-				runtime = { version = "LuaJIT" },
-				type = { castNumberToInteger = true },
-				format = {
-					enable = true,
-					defaultConfig = {
-						indent_style = "space",
-						indent_size = "2",
-						continuation_indent_size = "2",
+				Lua = {
+					diagnostics = {
+						globals = { "vim", "use" },
+					},
+					runtime = {
+						version = "LuaJIT",
+						path = vim.split(package.path, ";"),
+					},
+					workspace = {
+						library = {
+							[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+							[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+						},
 					},
 				},
 			}
