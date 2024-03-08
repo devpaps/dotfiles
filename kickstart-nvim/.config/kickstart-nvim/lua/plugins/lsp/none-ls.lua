@@ -1,7 +1,7 @@
 return {
 	"nvimtools/none-ls.nvim",
 	event = "VeryLazy",
-	dependencies = { "mason.nvim" },
+	dependencies = { "mason.nvim", "nvimtools/none-ls-extras.nvim" },
 	config = function()
 		local null_ls = require("null-ls")
 		require("crates").setup({
@@ -13,17 +13,8 @@ return {
 		null_ls.setup({
 			sources = {
 				null_ls.builtins.formatting.stylua,
-				null_ls.builtins.formatting.prettierd.with({
-					-- condition = function(utils)
-					-- 	return utils.has_file({
-					-- 		".prettierrc",
-					-- 		".prettierrc.json",
-					-- 		"prettier.config.js",
-					-- 		".prettierrc.js",
-					-- 	})
-					-- end,
-				}),
-				null_ls.builtins.diagnostics.eslint_d,
+				null_ls.builtins.formatting.prettierd,
+				require("none-ls.diagnostics.eslint_d"),
 				null_ls.builtins.completion.luasnip,
 			},
 		})
