@@ -31,6 +31,9 @@ set $lockman exec bash ~/.config/sway/lockman.sh
 for_window 	[app_id="Calculator"] floating 	    enable
 for_window 	[app_id="Thunar"]     floating 	    enable
 for_window  [app_id="kitty"]      opacity 0.95
+for_window  [title="Friends List"]      floating      enable
+# Floating gnome-calculator
+for_window [app_id="gnome-calculator"] floating enable
 
 # ------------------------
 # 3. KEY BINDINGS
@@ -68,7 +71,7 @@ exec swayidle -w \
 # ------------------------
 
 # Set gaps and layout preferences
-smart_gaps false
+smart_gaps true
 smart_borders true
 gaps inner 10 
 gaps outer 5
@@ -196,9 +199,6 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
-
-# Floating gnome-calculator
-for_window [app_id="gnome-calculator"] floating enable
 
 # Executed commands on startup
 exec --no-startup-id nm-applet --indicator
