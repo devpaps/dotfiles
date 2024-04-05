@@ -3,8 +3,7 @@ return {
 	"nvim-telescope/telescope-ui-select.nvim",
 	{
 		"nvim-telescope/telescope.nvim",
-		tag = "0.1.5",
-		-- event = "VeryLazy",
+		event = "VeryLazy",
 		dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope-fzf-native.nvim" },
 		config = function()
 			local telescope = require("telescope")
