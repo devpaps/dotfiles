@@ -17,7 +17,7 @@ return {
 			require("crates").setup()
 		end,
 	},
-	{ "wakatime/vim-wakatime", lazy = true },
+	{ "wakatime/vim-wakatime", event = "VeryLazy" },
 
 	-- A plugin for previewing markdown files using the glow CLI
 	{
@@ -35,7 +35,7 @@ return {
 	{
 		-- Make todo comments stand out in code
 		"folke/todo-comments.nvim",
-		lazy = true,
+		event = "VeryLazy",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		opts = {
 			vim.keymap.set("n", "<leader>lt", "<cmd>TodoQuickFix<cr>", { noremap = true, silent = true }),
