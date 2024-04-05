@@ -7,3 +7,5 @@ set anchorfind
 set findlen 1
 set tabstop 4
 set info 'size'
+set hidden
+set info size:time
