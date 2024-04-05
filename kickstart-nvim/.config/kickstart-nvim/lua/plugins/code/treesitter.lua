@@ -2,9 +2,7 @@ return {
 	{
 		-- Highlight, edit, and navigate code
 		"nvim-treesitter/nvim-treesitter",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter-textobjects",
-		},
+		version = false,
 		build = ":TSUpdate",
 		event = { "VeryLazy" },
 		config = function()
