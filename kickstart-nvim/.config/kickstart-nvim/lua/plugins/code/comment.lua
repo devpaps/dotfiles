@@ -1,5 +1,4 @@
 return {
-	-- "gc" to comment visual regions/lines
-	{ "numToStr/Comment.nvim", opts = {}, event = "VeryLazy" },
+	-- "gcc" to comment visual regions/lines
 	{ "JoosepAlviste/nvim-ts-context-commentstring", event = "VeryLazy" },
 }
