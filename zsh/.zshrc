@@ -14,7 +14,9 @@ eval "$(starship init zsh)"
 
 alias vz='NVIM_APPNAME=nvim-lazy nvim' # LazyVim
 
-alias v='NVIM_APPNAME=kickstart-nvim nvim' # New nvim config
+alias v="nvim" # New nvim config
+
+export EDITOR="nvim"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

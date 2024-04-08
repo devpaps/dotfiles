@@ -1,35 +1,103 @@
-vim.api.nvim_create_augroup("AutoUpdatePlugins", { clear = true })
-vim.api.nvim_create_autocmd("BufWritePost", { pattern = "plugins.lua", command = "source <afile> | PackerSync", group = 'AutoUpdatePlugins' })
-
-vim.api.nvim_create_augroup("Highlight", { clear = true })
-vim.api.nvim_create_autocmd("TextYankPost", { command = "silent! lua vim.highlight.on_yank() {higroup='IncSearch', timeout=400}", group = 'Highlight' })
-
-vim.api.nvim_create_augroup("LspNodeModules", { clear = true })
-vim.api.nvim_create_autocmd("BufRead", { pattern = "*/node_modules/*", command = "lua vim.diagnostic.disable(0)", group = 'LspNodeModules' })
-vim.api.nvim_create_autocmd("BufNewFile", { pattern = "*/node_modules/*", command = "lua vim.diagnostic.disable(0)", group = 'LspNodeModules' })
-
-vim.cmd("command! EslintFixAll lua RunEslintFixAll()")
-
-function RunEslintFixAll()
-    local job_id = vim.fn.jobstart({"eslint", "--fix", vim.fn.expand("%")}, {
-        on_exit = function(j, exit_code, event)
-            if exit_code == 0 then
-                vim.cmd("e")
-            else
-                print("ESLint failed. Exit code:", exit_code)
-            end
-        end,
-        detach = true
-    })
+local function augroup(name)
+	return vim.api.nvim_create_augroup("lazyvim_" .. name, { clear = true })
 end
 
-vim.api.nvim_create_augroup("Eslint", { clear = true })
-vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = "*.vue",
-    command = "EslintFixAll",
-    group = "Eslint"
+-- Check if we need to reload the file when it changed
+vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
+	group = augroup("checktime"),
+	command = "checktime",
 })
 
+-- Highlight on yank
+vim.api.nvim_create_autocmd("TextYankPost", {
+	group = augroup("highlight_yank"),
+	callback = function()
+		vim.highlight.on_yank()
+	end,
+})
 
--- vim.api.nvim_create_augroup("FormatOnSave", { clear = true })
--- vim.api.nvim_create_autocmd("BufWritePost", { command = "lua vim.lsp.buf.format()", group = 'FormatOnSave' })
+-- go to last loc when opening a buffer
+vim.api.nvim_create_autocmd("BufReadPost", {
+	group = augroup("last_loc"),
+	callback = function(event)
+		local exclude = { "gitcommit" }
+		local buf = event.buf
+		if vim.tbl_contains(exclude, vim.bo[buf].filetype) or vim.b[buf].lazyvim_last_loc then
+			return
+		end
+		vim.b[buf].lazyvim_last_loc = true
+		local mark = vim.api.nvim_buf_get_mark(buf, '"')
+		local lcount = vim.api.nvim_buf_line_count(buf)
+		if mark[1] > 0 and mark[1] <= lcount then
+			pcall(vim.api.nvim_win_set_cursor, 0, mark)
+		end
+	end,
+})
+
+-- close some filetypes with <q>
+vim.api.nvim_create_autocmd("FileType", {
+	group = augroup("close_with_q"),
+	pattern = {
+		"PlenaryTestPopup",
+		"help",
+		"lspinfo",
+		"man",
+		"notify",
+		"qf",
+		"query",
+		"spectre_panel",
+		"startuptime",
+		"tsplayground",
+		"neotest-output",
+		"checkhealth",
+		"neotest-summary",
+		"neotest-output-panel",
+	},
+	callback = function(event)
+		vim.bo[event.buf].buflisted = false
+		vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
+	end,
+})
+
+-- wrap and check for spell in text filetypes
+vim.api.nvim_create_autocmd("FileType", {
+	group = augroup("wrap_spell"),
+	pattern = { "gitcommit", "markdown" },
+	callback = function()
+		vim.opt_local.wrap = true
+		vim.opt_local.spell = true
+	end,
+})
+
+-- Auto create dir when saving a file, in case some intermediate directory does not exist
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+	group = augroup("auto_create_dir"),
+	callback = function(event)
+		if event.match:match("^%w%w+://") then
+			return
+		end
+		local file = vim.loop.fs_realpath(event.match) or event.match
+		vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
+	end,
+})
+
+-- Use LspAttach autocommand to only map the following keys
+-- after the language server attaches to the current buffer
+vim.api.nvim_create_autocmd("LspAttach", {
+	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+	callback = function(ev)
+		-- Enable completion triggered by <c-x><c-o>
+		vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+
+		-- Buffer local mappings.
+		local opts = { buffer = ev.buf }
+		vim.keymap.set("n", "gd", vim.lsp.buf.declaration, opts)
+		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+		vim.keymap.set("n", "L", vim.lsp.buf.signature_help, opts)
+		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+		vim.keymap.set("n", "gk", vim.lsp.buf.signature_help, opts)
+		vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, opts)
+		vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, opts)
+		vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+	end,
+})
