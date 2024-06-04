@@ -29,3 +29,6 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+# composer
+export PATH="$HOME/.config/composer/vendor/bin:$PATH"
