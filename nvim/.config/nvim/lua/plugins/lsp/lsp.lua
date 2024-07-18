@@ -5,12 +5,14 @@ return {
 		build = ":MasonUpdate",
 		opts = {
 			ensure_installed = {
+				"clangd",
 				"stylua",
 				"eslint_d",
 				"prettier",
 				"rust-analyzer",
 				"typescript-language-server",
 				"vue-language-server",
+				"antlers-language-server",
 			},
 		},
 		config = function(_, opts)
@@ -18,13 +20,13 @@ return {
 			local mr = require("mason-registry")
 			mr:on("package:install:success", function()
 				vim.defer_fn(function()
-					-- trigger FileType event to possibly load this newly installed LSP server
 					require("lazy.core.handler.event").trigger({
 						event = "FileType",
 						buf = vim.api.nvim_get_current_buf(),
 					})
 				end, 100)
 			end)
+
 			local function ensure_installed()
 				for _, tool in ipairs(opts.ensure_installed) do
 					local p = mr.get_package(tool)
@@ -41,7 +43,6 @@ return {
 		end,
 	},
 	{
-		-- Fidget shows the current LSP server and its status in the statusline
 		"j-hui/fidget.nvim",
 		event = "BufReadPre",
 		config = function()
@@ -49,7 +50,6 @@ return {
 		end,
 	},
 	{
-		-- LSP Configuration & Plugins
 		"neovim/nvim-lspconfig",
 		event = "BufReadPre",
 		dependencies = {
@@ -60,122 +60,107 @@ return {
 		config = function()
 			local lspconfig = require("lspconfig")
 
-			local function setup_servers()
-				local servers = {
-					"tsserver",
-					"eslint",
-					"lua_ls",
-					"marksman",
-					"html",
-					"cssls",
-					"jsonls",
-					"sqlls",
-					"bashls",
-					"jdtls",
-					"rust_analyzer",
-				}
+			local servers = {
+				tsserver = {
+					single_file_support = false,
+					settings = {
+						typescript = {
+							inlayHints = {
+								includeInlayParameterNameHints = "literal",
+								includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+								includeInlayFunctionParameterTypeHints = true,
+								includeInlayVariableTypeHints = false,
+								includeInlayPropertyDeclarationTypeHints = true,
+								includeInlayFunctionLikeReturnTypeHints = true,
+								includeInlayEnumMemberValueHints = true,
+							},
+						},
+						javascript = {
+							inlayHints = {
+								includeInlayParameterNameHints = "all",
+								includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+								includeInlayFunctionParameterTypeHints = true,
+								includeInlayVariableTypeHints = true,
+								includeInlayPropertyDeclarationTypeHints = true,
+								includeInlayFunctionLikeReturnTypeHints = true,
+								includeInlayEnumMemberValueHints = true,
+							},
+						},
+					},
+				},
+				lua_ls = {
+					settings = {
+						Lua = {
+							diagnostics = {
+								globals = { "vim", "use" },
+							},
+							runtime = {
+								version = "LuaJIT",
+								path = vim.split(package.path, ";"),
+							},
+							workspace = {
+								library = {
+									[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+									[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+								},
+							},
+						},
+					},
+				},
+				rust_analyzer = {
+					settings = {
+						["rust-analyzer"] = {
+							cargo = {
+								allFeatures = true,
+								loadOutDirsFromCheck = true,
+								runBuildScripts = true,
+							},
+							checkOnSave = {
+								allFeatures = true,
+								command = "clippy",
+								extraArgs = { "--no-deps" },
+							},
+							procMacro = {
+								enable = true,
+								ignored = {
+									["async-trait"] = { "async_trait" },
+									["napi-derive"] = { "napi" },
+									["async-recursion"] = { "async_recursion" },
+								},
+							},
+						},
+					},
+				},
+				clangd = {
+					on_attach = function(client, bufnr)
+						vim.api.nvim_buf_set_keymap(
+							bufnr,
+							"n",
+							"K",
+							"<cmd>lua vim.lsp.buf.hover()<CR>",
+							{ noremap = true, silent = true }
+						)
+						client.server_capabilities.signatureHelpProvider = false
+					end,
+				},
+				eslint = {
+					settings = {
+						rootPath = vim.fn.getcwd(),
+					},
+					on_attach = function(client, bufnr)
+						vim.api.nvim_create_autocmd("BufWritePre", {
+							buffer = bufnr,
+							command = "EslintFixAll",
+						})
+					end,
+				},
+				antlersls = {},
+				lemminx = {},
+			}
 
-				for _, lsp in ipairs(servers) do
-					lspconfig[lsp].setup({})
-				end
+			for lsp, config in pairs(servers) do
+				lspconfig[lsp].setup(config)
 			end
-
-			local lua_ls_settings = {
-				Lua = {
-					diagnostics = {
-						globals = { "vim", "use" },
-					},
-					runtime = {
-						version = "LuaJIT",
-						path = vim.split(package.path, ";"),
-					},
-					workspace = {
-						library = {
-							[vim.fn.expand("$VIMRUNTIME/lua")] = true,
-							[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
-						},
-					},
-				},
-			}
-
-			local rust_analyzer_settings = {
-				["rust-analyzer"] = {
-					cargo = {
-						allFeatures = true,
-						loadOutDirsFromCheck = true,
-						runBuildScripts = true,
-					},
-					checkOnSave = {
-						allFeatures = true,
-						command = "clippy",
-						extraArgs = { "--no-deps" },
-					},
-					procMacro = {
-						enable = true,
-						ignored = {
-							["async-trait"] = { "async_trait" },
-							["napi-derive"] = { "napi" },
-							["async-recursion"] = { "async_recursion" },
-						},
-					},
-				},
-			}
-
-			local tsserver_settings = {
-				-- capabilities = require("cmp_nvim_lsp").default_capabilities(
-				-- 	vim.lsp.protocol.make_client_capabilities()
-				-- ),
-				-- on_attach = function(client)
-				-- 	client.resolved_capabilities.document_formatting = false
-				-- end,
-				single_file_support = false,
-				settings = {
-					typescript = {
-						inlayHints = {
-							includeInlayParameterNameHints = "literal",
-							includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-							includeInlayFunctionParameterTypeHints = true,
-							includeInlayVariableTypeHints = false,
-							includeInlayPropertyDeclarationTypeHints = true,
-							includeInlayFunctionLikeReturnTypeHints = true,
-							includeInlayEnumMemberValueHints = true,
-						},
-					},
-					javascript = {
-						inlayHints = {
-							includeInlayParameterNameHints = "all",
-							includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-							includeInlayFunctionParameterTypeHints = true,
-							includeInlayVariableTypeHints = true,
-							includeInlayPropertyDeclarationTypeHints = true,
-							includeInlayFunctionLikeReturnTypeHints = true,
-							includeInlayEnumMemberValueHints = true,
-						},
-					},
-				},
-			}
-
-			setup_servers()
-
-			lspconfig.lua_ls.setup({ settings = lua_ls_settings })
-			lspconfig.rust_analyzer.setup({ settings = rust_analyzer_settings })
-			lspconfig.tsserver.setup({
-				settings = tsserver_settings,
-				-- on_attach = tsserver_settings.on_attach,
-				-- capabilities = tsserver_settings.capabilities,
-			})
-			lspconfig.eslint.setup({
-				settings = {
-					rootPath = vim.fn.getcwd(),
-				},
-				on_attach = function(client, bufnr)
-					vim.api.nvim_create_autocmd("BufWritePre", {
-						buffer = bufnr,
-						command = "EslintFixAll",
-					})
-				end,
-			})
-			lspconfig.lemminx.setup({})
 		end,
 	},
 }

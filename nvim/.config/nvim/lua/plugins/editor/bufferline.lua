@@ -2,6 +2,7 @@ return {
 	{ "echasnovski/mini.bufremove", event = "VeryLazy" },
 	{
 		"akinsho/bufferline.nvim",
+		branch = "main",
 		event = "VeryLazy",
 		keys = {
 			{ "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle pin" },

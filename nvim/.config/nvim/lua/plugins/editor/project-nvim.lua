@@ -6,7 +6,7 @@ return {
 			require("project_nvim").setup({
 				manual_mode = false,
 				detection_methods = { "lsp", "pattern" },
-				show_hidden = false,
+				show_hidden = true,
 				silent_chdir = true,
 				datapath = vim.fn.stdpath("data"),
 				patterns = {

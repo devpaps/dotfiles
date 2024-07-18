@@ -101,3 +101,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
 	end,
 })
+
+-- Dectect antlers file and set filetype to html for syntax highlighting
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+	pattern = { "*.antlers.html", "*.antlers" },
+	callback = function()
+		vim.bo.filetype = "html"
+	end,
+})
