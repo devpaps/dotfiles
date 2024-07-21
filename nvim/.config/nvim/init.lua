@@ -21,15 +21,9 @@ require("keymappings")
 require("autocmds")
 
 require("lazy").setup({
-	default = {
-		colorscheme = function()
-			require("catppuccin").load()
-		end,
-	},
 	spec = {
 		{ import = "plugins.code" },
 		{ import = "plugins.editor" },
 		{ import = "plugins.lsp" },
-		{ import = "plugins.ui" },
 	},
 })
