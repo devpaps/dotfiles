@@ -7,10 +7,13 @@ return {
 			ensure_installed = {
 				"clangd",
 				"stylua",
+				"html-lsp",
+				"css-lsp",
 				"eslint_d",
 				"prettier",
 				"rust-analyzer",
 				"typescript-language-server",
+				"tailwindcss-language-server",
 				"vue-language-server",
 				"antlers-language-server",
 			},
@@ -61,6 +64,33 @@ return {
 			local lspconfig = require("lspconfig")
 
 			local servers = {
+				tailwindcss = {},
+				html = {
+					filetypes = { "html" },
+					init_options = {
+						configurationSection = { "html", "css", "javascript" },
+						embeddedLanguages = {
+							css = true,
+							javascript = true,
+						},
+					},
+					settings = {
+						html = {
+							suggest = {
+								completion = {
+									enabled = true,
+									triggerCharacter = "<",
+								},
+							},
+						},
+					},
+				},
+				cssls = {
+					filetypes = { "css", "scss", "less" },
+					settings = {
+						["css.validate"] = true,
+					},
+				},
 				tsserver = {
 					single_file_support = false,
 					settings = {
