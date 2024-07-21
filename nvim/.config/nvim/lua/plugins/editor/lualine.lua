@@ -22,7 +22,7 @@ return {
 
 		return {
 			options = {
-				theme = "catppuccin-mocha",
+				theme = "rose-pine",
 				globalstatus = false,
 				disabled_filetypes = { statusline = { "dashboard", "alpha", "starter", "neotree" } },
 			},
