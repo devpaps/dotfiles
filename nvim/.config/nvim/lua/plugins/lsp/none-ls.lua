@@ -13,7 +13,21 @@ return {
 		null_ls.setup({
 			sources = {
 				null_ls.builtins.formatting.stylua,
-				null_ls.builtins.formatting.prettierd,
+				null_ls.builtins.formatting.prettierd.with({
+					filetypes = {
+						"html",
+						"json",
+						"css",
+						"svelte",
+						"typescriptreact",
+						"javascriptreact",
+						"typescript",
+						"javascript",
+						"yaml",
+						"markdown",
+						"graphql",
+					},
+				}),
 				-- require("none-ls.diagnostics.eslint_d"),
 				null_ls.builtins.completion.luasnip,
 			},
