@@ -17,20 +17,20 @@
 
     "modules-left": [
       "sway/workspaces",
-    "sway/mode"
+      "sway/mode"
     ],
     "modules-center": [
       "sway/window"
     ],
     "modules-right": [
       "idle_inhibitor",
-    "network",
-    "battery",
-    "pulseaudio",
-    "backlight",
-    "cpu",
-    "clock",
-    "tray"
+      "network",
+      "battery",
+      "pulseaudio",
+      "backlight",
+      "cpu",
+      "clock",
+      "tray"
     ],
 
 
@@ -58,18 +58,18 @@
       "format-critical": "<span size='13000' foreground='#E38C8F'>{icon}</span> {capacity}%",
       "format-charging": "<span size='13000' foreground='#B1E3AD'> </span>{capacity}%",
       "format-plugged": "<span size='13000' foreground='#B1E3AD'> </span>{capacity}%",
-      "format-alt": "<span size='13000' foreground='#B1E3AD'>{icon}</span> {time}",
+      "format-alt": "<span size='13000' foreground='#B1E3AD'>{icon}</span>{time}",
       "format-full": "<span size='13000' foreground='#B1E3AD'> </span>{capacity}%",
       "format-icons": ["", "", "", "", ""],
       "tooltip-format": "{time}"
     },
     "clock": {
-      "format": "<span foreground='#C6AAE8'> </span>{:%a %d %H:%M}",
+      "format": "<span foreground='#C6AAE8'>  </span>{:%a %d %H:%M}",
       "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
     },
     "cpu": {
       "interval": 5,
-      "format": " {usage}%",
+      "format": "  {usage}%",
       "states": {
         "warning": 70,
         "critical": 90
@@ -77,7 +77,7 @@
     },
 
     "memory": {
-      "format": " {}%"
+      "format": "  {}%"
     },
 
     "disk": {

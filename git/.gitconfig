@@ -1,0 +1,14 @@
+[user]
+  name = Lars Jönsson
+  email = crymeat@gmail.com
+
+[core]
+  editor = nvim
+  pager = delta
+
+[delta]
+  paging = never
+  side-by-side = true
+
+[fetch]
+  prune = true

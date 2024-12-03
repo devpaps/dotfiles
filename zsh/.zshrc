@@ -14,7 +14,9 @@ eval "$(starship init zsh)"
 
 alias vz='NVIM_APPNAME=nvim-lazy nvim' # LazyVim
 
-alias v='NVIM_APPNAME=kickstart-nvim nvim' # New nvim config
+alias v="nvim" # New nvim config
+
+export EDITOR="v"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -27,3 +29,6 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+# composer
+export PATH="$HOME/.config/composer/vendor/bin:$PATH"

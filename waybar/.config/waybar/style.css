@@ -143,11 +143,15 @@ tooltip {
   padding-bottom: 2px;
   padding-left: 10px;
   padding-right: 10px;
-  color: #fff;
+  background-color: rgba(0, 0, 0, 0.3);
+  /*color: #74c7ec;*/
+  border-top: 2px solid #74c7ec;
 }
 
 #workspaces button.focused {
-  color: white;
+  color: #74c7ec;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-top: 2px solid #74c7ec;
 }
 
 #workspaces button.urgent {
