@@ -91,7 +91,7 @@
 
     "network": {
       "format-wifi": "<span size='13000' foreground='#F2CECF'> </span>{essid}",
-      "format-ethernet": "<span size='13000' foreground='#F2CECF'>󰤭</span> Disconnected",
+      "format-ethernet": "<span size='13000' foreground='#F2CECF'>󰤭</span>   Disconnected",
       "format-linked": "{ifname} (No IP) ",
       "format-disconnected": "<span size='13000' foreground='#F2CECF'> </span>Disconnected",
       "tooltip-format-wifi": "Signal Strenght: {signalStrength}%"
