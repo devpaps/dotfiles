@@ -11,6 +11,7 @@ return {
 				delete = { text = "_" },
 				topdelete = { text = "‾" },
 				changedelete = { text = "~" },
+				untracked = { text = "┆" },
 			},
 			on_attach = function(bufnr)
 				local gs = package.loaded.gitsigns
@@ -22,7 +23,7 @@ return {
 				end
 
 				-- Navigation
-				map({ "n", "v" }, "]c", function()
+				map({ "n", "v" }, "<M-j>", function()
 					if vim.wo.diff then
 						return "]c"
 					end
@@ -32,7 +33,7 @@ return {
 					return "<Ignore>"
 				end, { expr = true, desc = "Jump to next hunk" })
 
-				map({ "n", "v" }, "[c", function()
+				map({ "n", "v" }, "<M-k>", function()
 					if vim.wo.diff then
 						return "[c"
 					end
@@ -56,7 +57,7 @@ return {
 				map("n", "<leader>hS", gs.stage_buffer, { desc = "git Stage buffer" })
 				map("n", "<leader>hu", gs.undo_stage_hunk, { desc = "undo stage hunk" })
 				map("n", "<leader>hR", gs.reset_buffer, { desc = "git Reset buffer" })
-				map("n", "<leader>hp", gs.preview_hunk, { desc = "preview git hunk" })
+				map("n", "<leader>hp", gs.preview_hunk_inline, { desc = "preview git hunk" })
 				map("n", "<leader>hb", function()
 					gs.blame_line({ full = false })
 				end, { desc = "git blame line" })
@@ -64,6 +65,10 @@ return {
 				map("n", "<leader>hD", function()
 					gs.diffthis("~")
 				end, { desc = "git diff against last commit" })
+				map("n", "<leader>hq", function()
+					vim.cmd("wincmd p")
+					vim.cmd("q")
+				end, { desc = "quit window" })
 
 				-- Toggles
 				map("n", "<leader>tb", gs.toggle_current_line_blame, { desc = "toggle git blame line" })

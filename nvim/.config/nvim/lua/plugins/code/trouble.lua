@@ -9,10 +9,10 @@ return {
 			signs = { error = " ", warning = " ", hint = " ", information = " " },
 		},
 		keys = {
-			{ "<leader>xx", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document Diagnostics (Trouble)" },
-			{ "<leader>xX", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace Diagnostics (Trouble)" },
-			{ "<leader>xL", "<cmd>TroubleToggle loclist<cr>", desc = "Location List (Trouble)" },
-			{ "<leader>xQ", "<cmd>TroubleToggle quickfix<cr>", desc = "Quickfix List (Trouble)" },
+			{ "<leader>xx", "<cmd>Trouble diagnostics<cr>", desc = "Workspace Diagnostics" },
+			{ "<leader>xt", "<cmd>Trouble todo<cr>", desc = "Workspace Todos" },
+			{ "<leader>xl", "<cmd>Trouble loclist<cr>", desc = "Location List (Trouble)" },
+			{ "<leader>xq", "<cmd>Trouble quickfix<cr>", desc = "Quickfix List (Trouble)" },
 			{
 				"[q",
 				function()

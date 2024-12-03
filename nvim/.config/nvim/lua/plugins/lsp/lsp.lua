@@ -11,6 +11,8 @@ return {
 				"css-lsp",
 				"eslint_d",
 				"prettier",
+				"prettierd",
+				"vtsls",
 				"rust-analyzer",
 				"typescript-language-server",
 				"tailwindcss-language-server",
@@ -62,8 +64,58 @@ return {
 		},
 		config = function()
 			local lspconfig = require("lspconfig")
+			local function disable_formatting(client)
+				client.server_capabilities.documentFormattingProvider = false
+				client.server_capabilities.documentRangeFormattingProvider = false
+			end
 
 			local servers = {
+				-- volar = {
+				-- 	filetypes = { "vue" },
+				-- 	cmd = { "vue-language-server", "--stdio" },
+				-- },
+				volar = {
+					init_options = {
+						vue = {
+							hybridMode = true,
+						},
+					},
+					filetypes = { "vue" },
+					on_attach = function(client, bufnr)
+						disable_formatting(client) -- Disable volar formatting
+					end,
+				},
+				vtsls = {
+					filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact", "vue" },
+					cmd = { "vtsls", "--stdio" },
+					settings = {
+						complete_function_calls = true,
+						vtsls = {
+							enableMoveToFileCodeAction = true,
+							autoUseWorkspaceTsdk = true,
+							experimental = {
+								maxInlayHintLength = 30,
+								completion = {
+									enableServerSideFuzzyMatch = true,
+								},
+							},
+						},
+						typescript = {
+							updateImportsOnFileMove = { enabled = "always" },
+							suggest = {
+								completeFunctionCalls = true,
+							},
+							inlayHints = {
+								enumMemberValues = { enabled = true },
+								functionLikeReturnTypes = { enabled = true },
+								parameterNames = { enabled = "literals" },
+								parameterTypes = { enabled = true },
+								propertyDeclarationTypes = { enabled = true },
+								variableTypes = { enabled = false },
+							},
+						},
+					},
+				},
 				tailwindcss = {},
 				html = {
 					filetypes = { "html" },
@@ -89,33 +141,6 @@ return {
 					filetypes = { "css", "scss", "less" },
 					settings = {
 						["css.validate"] = true,
-					},
-				},
-				tsserver = {
-					single_file_support = false,
-					settings = {
-						typescript = {
-							inlayHints = {
-								includeInlayParameterNameHints = "literal",
-								includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-								includeInlayFunctionParameterTypeHints = true,
-								includeInlayVariableTypeHints = false,
-								includeInlayPropertyDeclarationTypeHints = true,
-								includeInlayFunctionLikeReturnTypeHints = true,
-								includeInlayEnumMemberValueHints = true,
-							},
-						},
-						javascript = {
-							inlayHints = {
-								includeInlayParameterNameHints = "all",
-								includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-								includeInlayFunctionParameterTypeHints = true,
-								includeInlayVariableTypeHints = true,
-								includeInlayPropertyDeclarationTypeHints = true,
-								includeInlayFunctionLikeReturnTypeHints = true,
-								includeInlayEnumMemberValueHints = true,
-							},
-						},
 					},
 				},
 				lua_ls = {

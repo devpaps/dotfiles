@@ -16,6 +16,7 @@ return {
 				null_ls.builtins.formatting.prettierd.with({
 					filetypes = {
 						"html",
+						"vue",
 						"json",
 						"css",
 						"svelte",
@@ -34,6 +35,8 @@ return {
 		})
 
 		vim.keymap.set("n", "<C-f>", vim.lsp.buf.format, {})
-		vim.keymap.set("i", "<C-y>", vim.lsp.buf.completion, {})
+		vim.keymap.set("i", "<C-y>", function()
+			vim.lsp.completion.trigger()
+		end, {})
 	end,
 }
