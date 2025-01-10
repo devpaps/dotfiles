@@ -6,13 +6,28 @@ return {
 		opts = {
 			-- See `:help gitsigns.txt`
 			signs = {
-				add = { text = "+" },
-				change = { text = "~" },
-				delete = { text = "_" },
-				topdelete = { text = "‾" },
-				changedelete = { text = "~" },
-				untracked = { text = "┆" },
+				add = { text = "▎" },
+				change = { text = "▎" },
+				delete = { text = "" },
+				topdelete = { text = "" },
+				changedelete = { text = "▎" },
+				untracked = { text = "▎" },
 			},
+			signs_staged = {
+				add = { text = "▎" },
+				change = { text = "▎" },
+				delete = { text = "" },
+				topdelete = { text = "" },
+				changedelete = { text = "▎" },
+			},
+			-- signs = {
+			-- 	add = { text = "+" },
+			-- 	change = { text = "~" },
+			-- 	delete = { text = "_" },
+			-- 	topdelete = { text = "‾" },
+			-- 	changedelete = { text = "~" },
+			-- 	untracked = { text = "┆" },
+			-- },
 			on_attach = function(bufnr)
 				local gs = package.loaded.gitsigns
 
@@ -57,9 +72,12 @@ return {
 				map("n", "<leader>hS", gs.stage_buffer, { desc = "git Stage buffer" })
 				map("n", "<leader>hu", gs.undo_stage_hunk, { desc = "undo stage hunk" })
 				map("n", "<leader>hR", gs.reset_buffer, { desc = "git Reset buffer" })
+				map("n", "<leader>ghB", function()
+					gs.blame()
+				end, { desc = "Blame Buffer" })
 				map("n", "<leader>hp", gs.preview_hunk_inline, { desc = "preview git hunk" })
 				map("n", "<leader>hb", function()
-					gs.blame_line({ full = false })
+					gs.blame_line({ full = true })
 				end, { desc = "git blame line" })
 				map("n", "<leader>hd", gs.diffthis, { desc = "git diff against index" })
 				map("n", "<leader>hD", function()

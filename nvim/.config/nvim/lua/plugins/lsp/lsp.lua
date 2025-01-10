@@ -8,6 +8,7 @@ return {
 				"clangd",
 				"stylua",
 				"html-lsp",
+				"shellcheck",
 				"css-lsp",
 				"eslint_d",
 				"prettier",
@@ -15,7 +16,7 @@ return {
 				"vtsls",
 				"rust-analyzer",
 				"typescript-language-server",
-				"tailwindcss-language-server",
+				-- "tailwindcss-language-server",
 				"vue-language-server",
 				"antlers-language-server",
 			},
@@ -70,10 +71,6 @@ return {
 			end
 
 			local servers = {
-				-- volar = {
-				-- 	filetypes = { "vue" },
-				-- 	cmd = { "vue-language-server", "--stdio" },
-				-- },
 				volar = {
 					init_options = {
 						vue = {
@@ -116,7 +113,7 @@ return {
 						},
 					},
 				},
-				tailwindcss = {},
+				-- tailwindcss = {},
 				html = {
 					filetypes = { "html" },
 					init_options = {
@@ -209,8 +206,9 @@ return {
 						})
 					end,
 				},
-				antlersls = {},
+				-- antlersls = {},
 				lemminx = {},
+				jsonls = {},
 			}
 
 			for lsp, config in pairs(servers) do
