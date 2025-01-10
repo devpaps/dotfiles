@@ -32,3 +32,8 @@ esac
 
 # composer
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+
+#zed
+export PATH="$HOME/.local/bin:$PATH"
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

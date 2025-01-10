@@ -1,149 +1,144 @@
-// =============================================================================
-//
-// Waybar configuration
-//
-// Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration
-//
-// =============================================================================
-
 {
-  // -------------------------------------------------------------------------
-  // Global configuration
-  // -------------------------------------------------------------------------
-
-    "layer": "top",
-
-    "position": "top",
-
-    "modules-left": [
-      "sway/workspaces",
-      "sway/mode"
-    ],
-    "modules-center": [
-      "sway/window"
-    ],
-    "modules-right": [
-      "idle_inhibitor",
-      "network",
-      "battery",
-      "pulseaudio",
-      "backlight",
-      "cpu",
-      "clock",
-      "tray"
-    ],
-
-
-    // -------------------------------------------------------------------------
-    // Modules
-    // -------------------------------------------------------------------------
-
-    "idle_inhibitor": {
-      "format": "{icon}",
-      "format-icons": {
-        "activated": "",
-        "deactivated": ""
-      },
-      "start-activated": true,
-      "tooltip-format-activated": "Presentation mode",
-      "tooltip-format-deactivated": "No presentation mode"
-    },
-    "battery": {
-      "states": {
-        "warning": 30,
-        "critical": 15
-      },
-      "format": "<span size='13000' foreground='#B1E3AD'>{icon}</span> {capacity}%",
-      "format-warning": "<span size='13000' foreground='#B1E3AD'>{icon}</span> {capacity}%",
-      "format-critical": "<span size='13000' foreground='#E38C8F'>{icon}</span> {capacity}%",
-      "format-charging": "<span size='13000' foreground='#B1E3AD'> </span>{capacity}%",
-      "format-plugged": "<span size='13000' foreground='#B1E3AD'> </span>{capacity}%",
-      "format-alt": "<span size='13000' foreground='#B1E3AD'>{icon}</span>{time}",
-      "format-full": "<span size='13000' foreground='#B1E3AD'> </span>{capacity}%",
-      "format-icons": ["", "", "", "", ""],
-      "tooltip-format": "{time}"
-    },
-    "clock": {
-      "format": "<span foreground='#C6AAE8'>  </span>{:%a %d %H:%M}",
-      "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
-    },
-    "cpu": {
-      "interval": 5,
-      "format": "  {usage}%",
-      "states": {
-        "warning": 70,
-        "critical": 90
-      }
-    },
-
-    "memory": {
-      "format": "  {}%"
-    },
-
-    "disk": {
-      "format": "<span foreground='#928374'></span> {percentage_free}%",
-      "states": {
-        "warning": 70,
-        "critical": 90
-      }
-    },
-
-
-    "network": {
-      "format-wifi": "<span size='13000' foreground='#F2CECF'> </span>{essid}",
-      "format-ethernet": "<span size='13000' foreground='#F2CECF'>󰤭</span>   Disconnected",
-      "format-linked": "{ifname} (No IP) ",
-      "format-disconnected": "<span size='13000' foreground='#F2CECF'> </span>Disconnected",
-      "tooltip-format-wifi": "Signal Strenght: {signalStrength}%"
-    },
-
-
-    "sway/workspaces": {
-      "all-outputs": false,
-      "disable-scroll": true,
-      "format": "{icon} {name}",
-      "format-icons": {
-        "1:web": "",
-        "2:code": "",
-        "3:term": "",
-        "4:work": "",
-        "5:music": "",
-        "6:docs": "",
-        "urgent": "",
-        "focused": "",
-        "default": ""
-      }
-    },
-
-    "backlight": {
-      "format": "{icon} {percent} ",
-      "format-icons": [ "", "", "", "", "", "" ],
-      "on-scroll-up": "light -A 1",
-      "on-scroll-down": "light -U 1"
-    },
-
-
-
-    "pulseaudio": {
-      "format": "{icon}  {volume}%",
-      "format-bluetooth": "{icon}  {volume}%",
-      "format-muted": "",
-      "format-icons": {
-        "headphones": "",
-        "handsfree": "",
-        "headset": "",
-        "phone": "",
-        "portable": "",
-        "car": "",
-        "default": ["", ""]
-      },
-      "on-click": "pavucontrol",
-      "on-click-right": "blueman-manager"
-    },
-
-
-    "tray": {
-      "spacing": 10
+  "layer": "top",
+  "position": "top",
+  "height": 30,
+  "modules-left": [
+    "sway/workspaces",
+    "custom/separator",
+    "temperature",
+    "custom/separator",
+    "idle_inhibitor"
+  ],
+  "modules-center": [
+    "sway/window"
+  ],
+  "modules-right": [
+    "network",
+    "custom/separator",
+    "pulseaudio",
+    "custom/separator",
+    "backlight",
+    "custom/separator",
+    "cpu",
+    "custom/separator",
+    "memory",
+    "custom/separator",
+    "battery",
+    "custom/separator",
+    "disk",
+    "custom/separator",
+    "clock",
+    "custom/separator",
+    "tray"
+  ],
+  "custom/separator": {
+    "format": "|",
+    "interval": "once",
+    "tooltip": false
+  },
+  "sway/workspaces": {
+    "disable-scroll": true,
+    "persistent_workspaces": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": [],
+      "6": []
     }
-
+  },
+  "clock": {
+    "format": "<span foreground='#7dcfff'></span> {:%d %B %Y - %H:%M}",
+    "interval": 60,
+    "tooltip": true,
+    "tooltip-format": "<tt>{calendar}</tt>"
+  },
+  "disk": {
+    "interval": 18000,
+    "format": "<span foreground='#9ece6a'>﫭</span> {percentage_used}%",
+    "tooltip-format": "{used} discspace used out of {total} on {path}"
+  },
+  "cpu": {
+    "interval": 1,
+    "format": "<span foreground='#e0af68'></span> {usage}%"
+  },
+  "memory": {
+    "interval": 300,
+    "format": "<span foreground='#7aa2f7'>﬙</span> {percentage}%",
+    "tooltip-format": "{used:0.2f}GiB RAM used out of {total:0.2f}GiB"
+  },
+  "battery": {
+    "interval": 600,
+    "design-capacity": false,
+    "states": {
+      "warning": 15,
+      "critical": 10
+    },
+    "format": "<span foreground='#f7768e'>{icon}  </span> {capacity}%",
+    "format-charging": "<span foreground='#f7768e'>  </span> {capacity}%",
+    "format-pending-charge": "<span foreground='red'> Pending  </span> {capacity}%",
+    "format-critical": "<span foreground='#E38C8F'>{icon}</span> {capacity}%",
+    "format-time": "{H}h {M}m",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
+  },
+  "tray": {
+    "icon-size": 15,
+    "spacing": 5
+  },
+  "network": {
+    "interval": 1,
+    "format-wifi": "<span foreground='#61AF1F'>   </span> {essid} ({signalStrength}%)",
+    "format-ethernet": "<span foreground='#61AF1F'></span> {ifname} ({ipaddr})",
+    "format-linked": "<span foreground='#61AF1F'>   </span> {essid} (No IP)",
+    "format-disconnected": "<span foreground='#61AF1F'>   </span> Disconnected",
+    "tooltip": false
+  },
+  "backlight": {
+    "device": "intel_backlight",
+    "on-scroll-up": "light -A 5",
+    "on-scroll-down": "light -U 5",
+    "format": "<span foreground='#b48ead'>{icon}</span> {percent}%",
+    "format-icons": [
+      "",
+      "",
+      "",
+      ""
+    ]
+  },
+  "pulseaudio": {
+    "format": "<span foreground='#d08770'>{icon} </span> {volume}%",
+    "format-muted": "婢 Muted",
+    "format-icons": {
+      "default": [
+        "",
+        "",
+        ""
+      ]
+    },
+    "on-click": "pavucontrol",
+    "on-click-right": "blueman-manager",
+    "states": {
+      "warning": 85
+    },
+    "scroll-step": 1,
+    "tooltip": false
+  },
+  "temperature": {
+    "hwmon-path": "/sys/class/hwmon/hwmon5/temp1_input",
+    "format": " {temperatureC}°C",
+    "tooltip": false
+  },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "",
+      "deactivated": ""
+    }
+  }
 }

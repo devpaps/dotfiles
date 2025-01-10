@@ -1,160 +1,103 @@
-/* =============================================================================
- *
- * Waybar configuration
- *
- * Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration
- *
- * =========================================================================== */
-
-/* -----------------------------------------------------------------------------
- * Keyframes
- * -------------------------------------------------------------------------- */
-
 * {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 12pt;
+  border: none;
   border-radius: 0;
-  font-family: "Fira Code Medium Nerd Font Complete Mono";
-  font-size: 11pt;
-  min-height: 0;
+  transition-property: background-color;
+  transition-duration: 0.5s;
 }
-
-tooltip {
-  background: #1e1e28;
-  border-radius: 5px;
-  border-width: 2px;
-  border-style: solid;
-  border-color: #74c7ec;
+window#waybar {
+  color: #c0caf5;
+  background-color: #24283b;
+  border-bottom: 1px solid #414868;
+  transition-duration: 0.5s;
+  transition-property: background-color;
 }
-
-@keyframes blink-warning {
-  70% {
-    color: white;
-  }
-
-  to {
-    color: white;
-    background-color: orange;
-  }
+#workspaces button {
+  background: #24283b;
+  color: #c0caf5;
+  border-bottom: 1px solid #414868;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
-
-@keyframes blink-critical {
-  70% {
-    color: white;
-  }
-
-  to {
-    color: white;
-    background-color: red;
-  }
+#workspaces button.focused {
+  color: #c0caf5;
+  background: #414868;
 }
-
-/* -----------------------------------------------------------------------------
- * Base styles
- * -------------------------------------------------------------------------- */
-
-/* The whole bar */
-#waybar {
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  font-family: Roboto, Helvetica, Arial, sans-serif, "Font Awesome 5 Free";
-  font-size: 13px;
+#workspaces button.urgent {
+  color: #f7768e;
 }
-
-/* Each module */
-#battery,
+#workspaces button.persistent {
+  color: #414868;
+}
+#workspaces button:hover {
+  color: #c0caf5;
+  background: #414868;
+  box-shadow: inherit;
+}
 #clock,
-#cpu,
-#custom-keyboard-layout,
-#memory,
-#mode,
+#idle_inhibitor,
+#disk,
+#backlight,
+#custom-weather,
+#temperature,
+#bluetooth,
 #network,
 #pulseaudio,
-#temperature,
-#tray,
-#backlight,
-#idle_inhibit {
-  padding-left: 10px;
-  padding-right: 10px;
+#cpu,
+#memory,
+#battery,
+#mode {
+  margin: 0px 2px; /* gaps between modules */
+  padding: 0.2rem 0.6rem;
+  color: #c0caf5;
+  background: #24283b;
+  border-bottom: 1px solid #414868;
 }
-
-/* -----------------------------------------------------------------------------
- * Module styles
- * -------------------------------------------------------------------------- */
-
-#battery {
+#mode,
+#tray {
+  margin: 0 5px 0 2px;
+}
+/* #mode { */
+/*   color: #24283b; */
+/*   background-color: #f7768e; */
+/* } */
+@keyframes blink {
+  to {
+    color: #c0caf5;
+    background-color: #24283b;
+  }
+}
+#battery.critical:not(.charging) {
+  animation-name: blink;
+  animation-duration: 0.5s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   animation-direction: alternate;
+  color: #f7768e;
+  background-color: #24283b;
 }
-
-#battery.warning {
-  color: orange;
+#battery.charging {
+  color: #9ece6a;
+  background-color: #24283b;
 }
-
-#battery.critical {
-  color: red;
+#mpd.paused {
+  color: #414868;
+  background-color: #24283b;
 }
-
-#battery.critical.discharging {
-  animation-name: blink-critical;
-  animation-duration: 2s;
+#mpd.stopped {
+  background: transparent;
 }
-
-#clock {
-  font-weight: bold;
+#custom-separator {
+  color: #414868;
+  background: #24283b;
+  border-bottom: 1px solid #414868;
 }
-
-#cpu.warning {
-  color: orange;
+#idle_inhibitor {
+  color: #b5e8e0;
 }
-
-#cpu.critical {
-  color: red;
-}
-
-#memory {
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-}
-
-#memory.warning {
-  color: orange;
-}
-
-#memory.critical {
-  color: red;
-  animation-name: blink-critical;
-  animation-duration: 2s;
-}
-
-#network.disconnected {
-  color: orange;
-}
-
-#temperature.critical {
-  color: red;
-}
-
-#window {
-  font-weight: bold;
-}
-
-#workspaces button {
-  padding-bottom: 2px;
-  padding-left: 10px;
-  padding-right: 10px;
-  background-color: rgba(0, 0, 0, 0.3);
-  /*color: #74c7ec;*/
-  border-top: 2px solid #74c7ec;
-}
-
-#workspaces button.focused {
-  color: #74c7ec;
-  background-color: rgba(0, 0, 0, 0.3);
-  border-top: 2px solid #74c7ec;
-}
-
-#workspaces button.urgent {
-  border-color: #f089a6;
-  color: #f089a6;
+#custom-cava-internal {
+  font-family: "Hack Nerd Font";
 }
