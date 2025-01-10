@@ -18,9 +18,7 @@ set $right l
 set $term kitty
 
 # Your preferred application launcher
-set $menu rofi -m $(expr $(swaymsg -t get_tree | jq '.nodes | map([recurse(.nodes[]?, .floating_nodes[]?) | .focused] | any) | index(true)') - 1) -show drun -run-command 'swaymsg exec -- {cmd}'
-set $menu rofi -m $(swaymsg -t get_outputs | jq 'map(select(.active) | .focused) | index(true)') -show drun -run-command 'swaymsg exec -- {cmd}'
-set $screenshot grim ~/Screenshots/screenshots/scrn-$(date +"%Y-%m-%d-%H-%M-%S").png
+set $menu rofi -show drun -monitor "$(swaymsg -t get_outputs | jq -r '.[] | select(.focused).name')"
 set $lockman exec bash ~/.config/sway/lockman.sh
 
 # ------------------------
@@ -41,7 +39,6 @@ for_window [app_id="gnome-calculator"] floating enable
 
 # Basic keybindings
 bindsym $mod+x exec $lockman
-set $browser firefox
 
 # Brightness control keybindings
 bindsym XF86MonBrightnessUp exec light -A 5
@@ -54,7 +51,15 @@ bindsym shift+XF86MonBrightnessDown exec light -U 25
 # ------------------------
 
 # Set default wallpaper (change the path to your preferred wallpaper)
-output * bg ~/Wallpaper/5.png fill
+output * bg ~/Wallpaper/patlabor.jpg fill
+
+# Laptop below primary monitor
+# output DP-7 pos 0 0 res 2560x1440 scale 1
+# output eDP-1 pos 0 1440 res 1920x1200 scale 1
+
+# Laptop to the left of primary monitor
+output DP-7 pos 1920 0 res 2560x1440 scale 1
+output eDP-1 pos 0 0 res 1920x1200 scale 1
 
 # ------------------------
 # 5. IDLE CONFIGURATION
@@ -77,9 +82,9 @@ gaps inner 10
 gaps outer 5
 
 # Fullscreen and floating window settings
-for_window [shell="^.*"] inhibit_idle fullscreen
-for_window [class="^.*"] inhibit_idle fullscreen
-for_window [app_id="^.*"] inhibit_idle fullscreen
+# for_window [shell="^.*"] inhibit_idle fullscreen
+# for_window [class="^.*"] inhibit_idle fullscreen
+# for_window [app_id="^.*"] inhibit_idle fullscreen
 
 # Screenshot keybindings
 # Screenshot of the whole screen
@@ -102,10 +107,13 @@ input "1267:12693:ELAN0678:00_04F3:3195_Touchpad" {
 }
 
 # Volume control keybindings
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+
+
 
 # ------------------------
 # 8. WINDOW BORDER & TITLE CONFIGURATION
@@ -114,7 +122,7 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 # Set window border and titlebar preferences
 default_border none
 default_floating_border none
-font pango:monospace 0
+font pango:monospace 1
 titlebar_padding 1
 titlebar_border_thickness 0
 
@@ -203,18 +211,16 @@ bindsym $mod+r mode "resize"
 # Executed commands on startup
 exec --no-startup-id nm-applet --indicator
 exec --no-startup-id blueman-applet
+exec --no-startup-id pactl set-default-sink alsa_output.usb-Creative_Technology_Ltd_Sound_BlasterX_G1_00108378-00.analog-stereo
+exec --no-startup-id pactl set-default-source alsa_output.usb-USB_Microphone_Galder_V2_2018_06_26-00.analog-stereo
 
 # ------------------------
 # 10. BAR CONFIGURATION
 # ------------------------
 
 # Configure status bar
-bar { 
-     swaybar_command waybar
-}
-
 # Execute waybar script
-exec_always ~/.config/waybar/waybar.sh
+exec ~/.config/waybar/waybar.sh
 
 # Define screenshot keybindings
 bindsym $mod+Print exec /usr/local/bin/grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') $(xdg-user-dir Bilder)/$(date +'%Y-%m-%d-%H%M%S_grim.png')
