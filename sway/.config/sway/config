@@ -51,7 +51,8 @@ bindsym shift+XF86MonBrightnessDown exec light -U 25
 # ------------------------
 
 # Set default wallpaper (change the path to your preferred wallpaper)
-output * bg ~/Wallpaper/patlabor.jpg fill
+set $background ~/Wallpaper/patlabor.jpg
+output * bg $background fill
 
 # Laptop below primary monitor
 # output DP-7 pos 0 0 res 2560x1440 scale 1
@@ -195,14 +196,14 @@ bindsym $mod+minus scratchpad show
 
 # Define resizing mode and keybindings
 mode "resize" {
-    bindsym $left resize shrink width 10px
-    bindsym $down resize grow height 10px
-    bindsym $up resize shrink height 10px
-    bindsym $right resize grow width 10px
-    bindsym Left resize shrink width 10px
-    bindsym Down resize grow height 10px
-    bindsym Up resize shrink height 10px
-    bindsym Right resize grow width 10px
+    bindsym $left resize shrink width 5 ppt
+    bindsym $down resize grow height 5 ppt
+    bindsym $up resize shrink height 5 ppt
+    bindsym $right resize grow width 5 ppt
+    bindsym Left resize shrink width 5 ppt
+    bindsym Down resize grow height 5 ppt
+    bindsym Up resize shrink height 5 ppt
+    bindsym Right resize grow width 5 ppt
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
@@ -221,10 +222,6 @@ exec --no-startup-id pactl set-default-source alsa_output.usb-USB_Microphone_Gal
 # Configure status bar
 # Execute waybar script
 exec ~/.config/waybar/waybar.sh
-
-# Define screenshot keybindings
-bindsym $mod+Print exec /usr/local/bin/grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') $(xdg-user-dir Bilder)/$(date +'%Y-%m-%d-%H%M%S_grim.png')
-bindsym $mod+Shift+Print exec /usr/local/bin/grim -g "$(/usr/local/bin/slurp)" $(xdg-user-dir Bilder)/$(date +'%Y-%m-%d-%H%M%S_grim.png')
 
 # Include additional configuration files
 include /etc/sway/config.d/*
