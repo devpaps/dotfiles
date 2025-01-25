@@ -75,8 +75,8 @@ return {
 				end
 			end
 
-			vim.keymap.set("n", "<C-p>", project_files, {})
-			vim.keymap.set("n", "<S-p>", builtin.live_grep, {})
+			-- vim.keymap.set("n", "<C-p>", project_files, {})
+			-- vim.keymap.set("n", "<S-p>", builtin.live_grep, {})
 		end,
 	},
 }

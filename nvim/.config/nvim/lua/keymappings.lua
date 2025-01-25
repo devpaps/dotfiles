@@ -32,7 +32,7 @@ keymap("n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
 keymap("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts)
 keymap("n", "go", "<cmd>Telescope lsp_type_definitions<CR>", opts)
 keymap("n", "<leader>f", "<cmd>lua require('fzf-lua').files()<CR>", { silent = true })
-keymap("n", "<leader>g", "<cmd>lua require('fzf-lua').grep_visual()<CR>", { silent = true })
+keymap("n", "<leader>g", "<cmd>lua require('fzf-lua').grep_project()<CR>", { silent = true })
 
 -- Resize with arrows
 keymap("n", "<C-Down>", ":resize -2<CR>", { desc = "Resize Horizontal Split Down" })

@@ -24,7 +24,7 @@ require("lazy").setup({
 	spec = {
 		{ import = "plugins.code" },
 		{ import = "plugins.editor" },
-		{ import = "plugins.lsp.none-ls" }, -- Ensure none-ls is loaded first
+		-- { import = "plugins.lsp.none-ls" }, -- Ensure none-ls is loaded first
 		{ import = "plugins.lsp" },
 	},
 })

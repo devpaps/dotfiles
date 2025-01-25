@@ -1,7 +1,7 @@
 return {
 	"nvimtools/none-ls.nvim",
 	event = "VeryLazy",
-	dependencies = { "mason.nvim", "nvimtools/none-ls-extras.nvim" },
+	dependencies = { "nvim-lspconfig", "mason.nvim", "nvimtools/none-ls-extras.nvim" },
 	config = function()
 		local null_ls = require("null-ls")
 		require("crates").setup({

@@ -6,6 +6,7 @@ return {
 		opts = {
 			ensure_installed = {
 				"clangd",
+				"intelephense",
 				"stylua",
 				"html-lsp",
 				"shellcheck",
@@ -69,6 +70,11 @@ return {
 				client.server_capabilities.documentFormattingProvider = false
 				client.server_capabilities.documentRangeFormattingProvider = false
 			end
+			-- local on_attach = function(client, bufnr)
+			-- 	local opts = { noremap = true, silent = true, buffer = bufnr }
+			-- 	vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+			-- 	vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+			-- end
 
 			local servers = {
 				volar = {
@@ -83,7 +89,7 @@ return {
 					end,
 				},
 				vtsls = {
-					filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact", "vue" },
+					filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
 					cmd = { "vtsls", "--stdio" },
 					settings = {
 						complete_function_calls = true,
@@ -141,6 +147,7 @@ return {
 					},
 				},
 				lua_ls = {
+					-- on_attach = on_attach,
 					settings = {
 						Lua = {
 							diagnostics = {
@@ -150,7 +157,19 @@ return {
 								version = "LuaJIT",
 								path = vim.split(package.path, ";"),
 							},
+							completion = {
+								keywordSnippet = "Replace",
+							},
+							hint = {
+								enable = true,
+								setType = false,
+								paramType = true,
+								paramName = "Disable",
+								semicolon = "Disable",
+								arrayIndex = "Disable",
+							},
 							workspace = {
+								checkThirdParty = false,
 								library = {
 									[vim.fn.expand("$VIMRUNTIME/lua")] = true,
 									[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
@@ -206,7 +225,9 @@ return {
 						})
 					end,
 				},
-				-- antlersls = {},
+				antlersls = {},
+				intelephense = {},
+				phpactor = {},
 				lemminx = {},
 				jsonls = {},
 			}
