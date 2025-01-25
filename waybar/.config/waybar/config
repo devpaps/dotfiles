@@ -7,6 +7,8 @@
     "custom/separator",
     "temperature",
     "custom/separator",
+    "custom/spotify",
+    "custom/separator",
     "idle_inhibitor"
   ],
   "modules-center": [
@@ -47,8 +49,15 @@
       "6": []
     }
   },
+  "custom/spotify": {
+    "format": "{}",
+    "exec": "~/.config/waybar/spotify-status.sh",
+    "interval": 1,
+    "return-type": "json"
+  },
   "clock": {
-    "format": "<span foreground='#7dcfff'></span> {:%d %B %Y - %H:%M}",
+    "format": "<span foreground='#7dcfff'></span> {:%d %B - %H:%M}",
+    "format-alt": "{:%A, %B %d, %Y}  ",
     "interval": 60,
     "tooltip": true,
     "tooltip-format": "<tt>{calendar}</tt>"

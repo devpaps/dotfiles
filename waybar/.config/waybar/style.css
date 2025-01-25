@@ -1,5 +1,5 @@
 * {
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif, "Font Awesome 6 Free";
   font-size: 12pt;
   border: none;
   border-radius: 0;
@@ -49,6 +49,7 @@ window#waybar {
 #cpu,
 #memory,
 #battery,
+#custom-spotify,
 #mode {
   margin: 0px 2px; /* gaps between modules */
   padding: 0.2rem 0.6rem;
@@ -60,10 +61,6 @@ window#waybar {
 #tray {
   margin: 0 5px 0 2px;
 }
-/* #mode { */
-/*   color: #24283b; */
-/*   background-color: #f7768e; */
-/* } */
 @keyframes blink {
   to {
     color: #c0caf5;
@@ -83,12 +80,17 @@ window#waybar {
   color: #9ece6a;
   background-color: #24283b;
 }
-#mpd.paused {
+#custom-spotify.playing {
+  color: #c0caf5;
+  background-color: #24283b;
+}
+#custom-spotify.paused {
   color: #414868;
   background-color: #24283b;
 }
-#mpd.stopped {
+#custom-spotify.stopped {
   background: transparent;
+  color: #414868;
 }
 #custom-separator {
   color: #414868;
@@ -97,7 +99,4 @@ window#waybar {
 }
 #idle_inhibitor {
   color: #b5e8e0;
-}
-#custom-cava-internal {
-  font-family: "Hack Nerd Font";
 }

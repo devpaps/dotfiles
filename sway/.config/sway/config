@@ -5,6 +5,8 @@
 # 1. GLOBAL CONFIGURATIONS
 # ------------------------
 
+exec --no-startup-id dunst
+
 # Set the mod key (Mod4 is Super/Windows key, Mod1 is Alt)
 set $mod Mod4
 
