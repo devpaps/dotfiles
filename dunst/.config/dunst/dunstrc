@@ -3,7 +3,7 @@
     monitor = 0
     follow = mouse
     width = 350
-    offset = 18x18
+    offset = (18, 18)
     progress_bar = true
     progress_bar_height = 10
     progress_bar_frame_width = 1
@@ -69,3 +69,7 @@
     timeout = 0
     new_icon = dialog-warning-symbolic
     format = "<b>%s</b>\n%b %a"
+
+[skip-rule] 
+    appname=Spotify
+    skip_display=true
