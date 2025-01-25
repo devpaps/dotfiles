@@ -1,5 +1,12 @@
 return {
 	{
+		"zbirenbaum/copilot.lua",
+		opts = {
+			suggestion = { enabled = true },
+			panel = { enabled = true },
+		},
+	},
+	{
 		"CopilotC-Nvim/CopilotChat.nvim",
 		branch = "main",
 		event = "VeryLazy",
