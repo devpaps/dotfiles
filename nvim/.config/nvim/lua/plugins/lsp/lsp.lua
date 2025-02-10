@@ -6,6 +6,7 @@ return {
 		opts = {
 			ensure_installed = {
 				"clangd",
+				"lemminx",
 				"intelephense",
 				"stylua",
 				"html-lsp",
@@ -58,6 +59,7 @@ return {
 	},
 	{
 		"neovim/nvim-lspconfig",
+		version = "*",
 		event = "BufReadPre",
 		dependencies = {
 			"williamboman/mason.nvim",
