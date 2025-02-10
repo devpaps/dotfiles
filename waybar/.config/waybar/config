@@ -109,16 +109,11 @@
     "tooltip": false
   },
   "backlight": {
-    "device": "intel_backlight",
+    "tooltip": false,
+    "format": "<span foreground='#b48ead'></span> {}%",
+    "interval": 1,
     "on-scroll-up": "light -A 5",
-    "on-scroll-down": "light -U 5",
-    "format": "<span foreground='#b48ead'>{icon}</span> {percent}%",
-    "format-icons": [
-      "",
-      "",
-      "",
-      ""
-    ]
+    "on-scroll-down": "light -U 5"
   },
   "pulseaudio": {
     "format": "<span foreground='#d08770'>{icon} </span> {volume}%",
