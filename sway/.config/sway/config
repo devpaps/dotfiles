@@ -111,7 +111,7 @@ input "1267:12693:ELAN0678:00_04F3:3195_Touchpad" {
 
 # Volume control keybindings
 bindsym Control+h exec playerctl previous
-bindsym Control+l exec playerctl next
+bindsym Control+k exec playerctl next
 bindsym Control+j exec playerctl play-pause
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
