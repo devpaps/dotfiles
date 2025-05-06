@@ -66,3 +66,6 @@ eval "$(zoxide init zsh)"
 
 #todo
 export TODO_CUSTOM_FILE_PATH="$HOME/todos/todo.txt"
+
+# Switch git accounts
+alias switchgh="/home/devpaps/.dotfiles/git/switch-user.sh"
