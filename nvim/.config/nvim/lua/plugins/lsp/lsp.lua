@@ -228,7 +228,9 @@ return {
 					end,
 				},
 				antlersls = {},
-				intelephense = {},
+				intelephense = {
+					filetypes = { "php", "blade" },
+				},
 				phpactor = {},
 				lemminx = {},
 				jsonls = {},
