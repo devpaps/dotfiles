@@ -1,9 +1,11 @@
 #-------------------------------------------------------------------------------
 # Base ZSH Configuration
 #-------------------------------------------------------------------------------
-HISTFILE=~/.histfile
+HISTFILE="${HOME}/.config/.histfile"
 HISTSIZE=1000
 SAVEHIST=1000
+setopt APPEND_HISTORY
+setopt SHARE_HISTORY
 
 # Completion configuration
 zstyle :compinstall filename '/home/devpaps/.zshrc'
@@ -16,6 +18,11 @@ compinit
 alias icat="kitty +kitten icat"
 alias vz='NVIM_APPNAME=nvim-lazy nvim'  # LazyVim
 alias v="nvim"                          # New nvim config
+alias ls="eza"
+alias ll="eza -l"
+alias lla="eza -la"
+alias lsd="eza --group-directories-first"
+alias la="eza -a"
 
 #-------------------------------------------------------------------------------
 # Environment Variables
@@ -53,3 +60,9 @@ export NVM_DIR="$HOME/.nvm"
 
 # Starship prompt
 eval "$(starship init zsh)"
+
+#zoxide
+eval "$(zoxide init zsh)"
+
+#todo
+export TODO_CUSTOM_FILE_PATH="$HOME/todos/todo.txt"
