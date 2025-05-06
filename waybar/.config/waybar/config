@@ -103,7 +103,7 @@
   "network": {
     "interval": 1,
     "format-wifi": "<span foreground='#61AF1F'>   </span> {essid} ({signalStrength}%)",
-    "format-ethernet": "<span foreground='#61AF1F'></span> {ifname} ({ipaddr})",
+    "format-ethernet": "<span foreground='#61AF1F'></span> {ifname}",
     "format-linked": "<span foreground='#61AF1F'>   </span> {essid} (No IP)",
     "format-disconnected": "<span foreground='#61AF1F'>   </span> Disconnected",
     "tooltip": false
