@@ -30,7 +30,7 @@ case "$1" in
     fi
     ;;
   *)
-    echo "Usage: $0 {devpaps|noveris}"
+    echo "Usage: $0 {personal|work}"
     exit 1
     ;;
 esac
@@ -40,3 +40,5 @@ echo -e "\nCurrent Git configuration:"
 echo "Name:  $(git config --global user.name)"
 echo "Email: $(git config --global user.email)"
 
+echo "Reloading shell to apply GitHub credentials..."
+exec $SHELL
