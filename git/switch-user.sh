@@ -30,7 +30,7 @@ case "$1" in
     fi
     ;;
   *)
-    echo "Usage: $0 {personal|work}"
+    echo "Usage: $0 {devpaps|noveris}"
     exit 1
     ;;
 esac
