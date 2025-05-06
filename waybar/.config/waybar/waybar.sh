@@ -1,10 +1,11 @@
-#!/usr/bin/env sh
+#!/bin/bash
 
-# Terminate already running bar instances
-killall -q waybar
+CONFIG_FILES="$HOME/.config/waybar/config $HOME/.config/waybar/style.css"
 
-# Wait until the processes have been shut down
-while pgrep -x waybar >/dev/null; do sleep 1; done
+trap "killall waybar" EXIT
 
-# Launch main
-waybar
+while true; do
+    waybar &
+    inotifywait -e create,modify $CONFIG_FILES
+    killall waybar
+done
