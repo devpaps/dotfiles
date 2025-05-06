@@ -3,6 +3,9 @@ local keymap = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 -- local resession = require("resession")
 -- resession.setup()
+--
+-- Go to config
+keymap("n", "<leader>rc", ":e $MYVIMRC<CR>", opts)
 
 -- Resession
 keymap("n", "<leader>ss", ":lua require('resession').save()<CR>", opts)
@@ -25,7 +28,7 @@ keymap("v", "<", "<gv", opts)
 keymap("v", ">", ">gv", opts)
 
 -- NeoTree
-keymap("n", "<C-e>", ":Neotree filesystem toggle<CR>", opts)
+keymap("n", "<leader>e", ":Neotree filesystem toggle<CR>", opts)
 
 keymap("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts)
 keymap("n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
@@ -63,7 +66,7 @@ keymap("n", "gh", "<cmd>lua vim.diagnostic.open_float( {border = 'rounded', max_
 keymap("n", "<C-Space>", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 
 -- Lazygit
-keymap("n", "<leader>gg", "<CMD>LazyGit<CR>", opts)
+keymap("n", "<leader>lg", "<CMD>LazyGit<CR>", opts)
 
 -- Remove highlights
 keymap("n", "<CR>", ":noh<CR><CR>", opts)
