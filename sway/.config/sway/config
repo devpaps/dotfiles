@@ -29,7 +29,6 @@ set $lockman exec bash ~/.config/sway/lockman.sh
 
 # Floating window rules
 for_window 	[app_id="Calculator"] floating 	    enable
-for_window 	[app_id="Thunar"]     floating 	    enable
 for_window  [app_id="kitty"]      opacity 0.95
 for_window  [title="Friends List"]      floating      enable
 # Floating gnome-calculator
@@ -185,7 +184,8 @@ bindsym $mod+Control+Shift+Down move workspace to output down
 bindsym $mod+Control+Shift+Up move workspace to output up
 bindsym $mod+b splith
 bindsym $mod+v splitv
-bindsym $mod+s layout stacking
+
+# bindsym $mod+s layout stacking
 bindsym $mod+e layout toggle split
 bindsym $mod+f fullscreen
 bindsym $mod+Shift+space floating toggle
@@ -216,17 +216,6 @@ exec --no-startup-id nm-applet --indicator
 exec --no-startup-id blueman-applet
 exec --no-startup-id pactl set-default-sink alsa_output.usb-Creative_Technology_Ltd_Sound_BlasterX_G1_00108378-00.analog-stereo
 exec --no-startup-id pactl set-default-source alsa_output.usb-USB_Microphone_Galder_V2_2018_06_26-00.analog-stereo
-
-# ------------------------
-# 10. BAR CONFIGURATION
-# ------------------------
-
-# Configure status bar
-# Execute waybar script
-exec_always ~/.config/waybar/waybar.sh
-# bar {
-#     swaybar_command waybar
-# }
 
 # Include additional configuration files
 include /etc/sway/config.d/*
