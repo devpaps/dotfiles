@@ -1,5 +1,5 @@
 return {
-	"nvimtools/none-ls.nvim",
+	"ulisses-cruz/none-ls.nvim",
 	event = "VeryLazy",
 	dependencies = { "nvim-lspconfig", "mason.nvim", "nvimtools/none-ls-extras.nvim" },
 	config = function()
