@@ -27,7 +27,7 @@ alias la="eza -a"
 #-------------------------------------------------------------------------------
 # Environment Variables
 #-------------------------------------------------------------------------------
-export EDITOR="v"
+export EDITOR="nvim"
 export GTK_IM_MODULE=ibus
 export QT_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
@@ -38,6 +38,9 @@ export XMODIFIERS=@im=ibus
 #-------------------------------------------------------------------------------
 # Path Configuration
 #-------------------------------------------------------------------------------
+# Ruby gems (user install) on PATH
+export PATH="$HOME/bin:$PATH"
+
 # pnpm
 export PNPM_HOME="/home/devpaps/.local/share/pnpm"
 case ":$PATH:" in
@@ -57,6 +60,7 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+nvm use 22 >/dev/null 2>&1
 
 # Starship prompt
 eval "$(starship init zsh)"
@@ -69,3 +73,13 @@ export TODO_CUSTOM_FILE_PATH="$HOME/todos/todo.txt"
 
 # Switch git accounts
 alias switchgh="/home/devpaps/.dotfiles/git/switch-user.sh"
+
+# opencode
+export PATH=/home/devpaps/.opencode/bin:$PATH
+
+export PATH=$PATH:$HOME/go/bin
+
+#Maven and Java
+export JAVA_HOME=/usr/lib/jvm/java-24-openjdk
+export PATH="$JAVA_HOME/bin:$PATH"
+
