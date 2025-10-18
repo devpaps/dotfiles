@@ -20,7 +20,7 @@ set $right l
 set $term kitty
 
 # Your preferred application launcher
-set $menu rofi -show drun -monitor "$(swaymsg -t get_outputs | jq -r '.[] | select(.focused).name')"
+set $menu pgrep rofi >/dev/null 2>&1 && killall rofi || rofi -show drun -monitor "$(swaymsg -t get_outputs | jq -r '.[] | select(.focused).name')"
 set $lockman exec bash ~/.config/sway/lockman.sh
 
 # ------------------------
@@ -52,7 +52,7 @@ bindsym shift+XF86MonBrightnessDown exec light -U 25
 # ------------------------
 
 # Set default wallpaper (change the path to your preferred wallpaper)
-set $background ~/Wallpaper/patlabor.jpg
+set $background ~/Wallpaper/reach_for_the_stars.png
 output * bg $background fill
 
 # Laptop below primary monitor
@@ -61,6 +61,7 @@ output * bg $background fill
 
 # Laptop to the left of primary monitor
 output DP-7 pos 1920 0 res 2560x1440 scale 1
+output DP-8 pos 1920 0 res 2560x1440 scale 1
 output eDP-1 pos 0 0 res 1920x1200 scale 1
 
 # ------------------------
@@ -122,8 +123,8 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 # ------------------------
 
 # Set window border and titlebar preferences
-default_border none
-default_floating_border none
+default_border pixel 1
+default_floating_border pixel 1
 font pango:monospace 1
 titlebar_padding 1
 titlebar_border_thickness 0
@@ -178,19 +179,22 @@ bindsym $mod+Shift+9 move container to workspace number 9
 bindsym $mod+Shift+0 move container to workspace number 10
 
 # Define layout and other miscellaneous keybindings
-bindsym $mod+Control+Shift+Right move workspace to output right
-bindsym $mod+Control+Shift+Left move workspace to output left
-bindsym $mod+Control+Shift+Down move workspace to output down
-bindsym $mod+Control+Shift+Up move workspace to output up
+bindsym $mod+Control+Right move workspace to output right
+bindsym $mod+Control+Left move workspace to output left
+bindsym $mod+Control+Down move workspace to output down
+bindsym $mod+Control+Up move workspace to output up
 bindsym $mod+b splith
 bindsym $mod+v splitv
 
 # bindsym $mod+s layout stacking
-bindsym $mod+e layout toggle split
+bindsym $mod+t layout toggle split
 bindsym $mod+f fullscreen
 bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
+
+# Open file manager
+bindsym $mod+e exec thunar
 
 # Define scratchpad keybindings
 bindsym $mod+Shift+minus move scratchpad
