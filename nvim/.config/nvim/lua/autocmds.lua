@@ -82,9 +82,45 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 })
 
 -- Dectect antlers file and set filetype to html for syntax highlighting
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-	pattern = { "*.antlers.html", "*.antlers" },
-	callback = function()
-		vim.bo.filetype = "html"
+-- vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+-- 	pattern = { "*.antlers.html", "*.antlers" },
+-- 	callback = function()
+-- 		vim.bo.filetype = "html"
+-- 	end,
+-- })
+
+-- Optimize large files
+vim.api.nvim_create_autocmd("BufReadPre", {
+	pattern = "*",
+	callback = function(args)
+		local ok, stats = pcall(vim.loop.fs_stat, args.match)
+		-- If file is larger than 100KB, disable certain features
+		if ok and stats and stats.size > 100000 then
+			vim.b[args.buf].large_buf = true
+			vim.opt_local.foldmethod = "manual"
+			vim.opt_local.syntax = "off"
+			-- Disable other expensive features
+			vim.opt_local.spell = false
+			vim.opt_local.undofile = false
+			vim.opt_local.swapfile = false
+			vim.opt_local.showmatch = false
+			vim.opt_local.cursorline = false
+		end
+	end,
+})
+
+-- General LSP attach callback for all LSP clients
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		local bufnr = args.buf
+
+		-- Set up keymaps for all LSP clients
+		local opts = { noremap = true, silent = true, buffer = bufnr }
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+		vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+		vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+		vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
 	end,
 })

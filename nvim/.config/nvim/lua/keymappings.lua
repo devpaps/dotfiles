@@ -7,6 +7,9 @@ local opts = { noremap = true, silent = true }
 -- Go to config
 keymap("n", "<leader>rc", ":e $MYVIMRC<CR>", opts)
 
+-- Go to dashboard
+keymap("n", "<leader>d", "<cmd>Alpha<CR>", opts)
+
 -- Resession
 keymap("n", "<leader>ss", ":lua require('resession').save()<CR>", opts)
 keymap("n", "<leader>sl", ":lua require('resession').load()<CR>", opts)
