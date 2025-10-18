@@ -18,7 +18,7 @@ return {
 				"vtsls",
 				"rust-analyzer",
 				"typescript-language-server",
-				-- "tailwindcss-language-server",
+				"tailwindcss-language-server",
 				"vue-language-server",
 				"antlers-language-server",
 			},
@@ -68,15 +68,11 @@ return {
 		},
 		config = function()
 			local lspconfig = require("lspconfig")
+			local util = require("lspconfig.util")
 			local function disable_formatting(client)
 				client.server_capabilities.documentFormattingProvider = false
 				client.server_capabilities.documentRangeFormattingProvider = false
 			end
-			-- local on_attach = function(client, bufnr)
-			-- 	local opts = { noremap = true, silent = true, buffer = bufnr }
-			-- 	vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-			-- 	vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-			-- end
 
 			local servers = {
 				volar = {
@@ -121,7 +117,7 @@ return {
 						},
 					},
 				},
-				-- tailwindcss = {},
+				tailwindcss = {},
 				html = {
 					filetypes = { "html" },
 					init_options = {
@@ -231,7 +227,32 @@ return {
 				intelephense = {
 					filetypes = { "php", "blade" },
 				},
-				phpactor = {},
+				phpactor = {
+					filetypes = { "php", "blade" },
+					on_attach = function(client, bufnr)
+						vim.api.nvim_buf_set_keymap(
+							bufnr,
+							"n",
+							"gd",
+							"<cmd>PhpactorGotoDefinition<CR>",
+							{ noremap = true, silent = true }
+						)
+						vim.api.nvim_buf_set_keymap(
+							bufnr,
+							"n",
+							"gr",
+							"<cmd>PhpactorFindReferences<CR>",
+							{ noremap = true, silent = true }
+						)
+						vim.api.nvim_buf_set_keymap(
+							bufnr,
+							"n",
+							"<leader>rn",
+							"<cmd>PhpactorRename<CR>",
+							{ noremap = true, silent = true }
+						)
+					end,
+				},
 				lemminx = {},
 				jsonls = {},
 			}
