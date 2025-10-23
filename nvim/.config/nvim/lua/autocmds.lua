@@ -81,14 +81,6 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	end,
 })
 
--- Dectect antlers file and set filetype to html for syntax highlighting
--- vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
--- 	pattern = { "*.antlers.html", "*.antlers" },
--- 	callback = function()
--- 		vim.bo.filetype = "html"
--- 	end,
--- })
-
 -- Optimize large files
 vim.api.nvim_create_autocmd("BufReadPre", {
 	pattern = "*",

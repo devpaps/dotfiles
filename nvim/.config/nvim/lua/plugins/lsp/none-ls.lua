@@ -31,12 +31,15 @@ return {
 				}),
 				-- require("none-ls.diagnostics.eslint_d"),
 				null_ls.builtins.completion.luasnip,
+				null_ls.builtins.formatting.blade_formatter.with({
+					filetypes = { "blade" },
+				}),
 			},
 		})
 
-		vim.keymap.set("n", "<C-f>", vim.lsp.buf.format, {})
+		vim.keymap.set("n", "<C-f>", vim.lsp.buf.format, { desc = "Format buffer" })
 		vim.keymap.set("i", "<C-y>", function()
 			vim.lsp.completion.trigger()
-		end, {})
+		end, { desc = "Trigger completion" })
 	end,
 }
