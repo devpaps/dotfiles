@@ -12,3 +12,9 @@
 
 [fetch]
   prune = true
+
+[diff]
+  colorMoved = default
+  ignoreBlankLines = true
+  ignoreSpaceAtEOL = true
+  ignoreSpaceChange = true
