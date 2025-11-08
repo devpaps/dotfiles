@@ -40,6 +40,21 @@ keymap("n", "go", "<cmd>Telescope lsp_type_definitions<CR>", opts)
 keymap("n", "<leader>f", "<cmd>lua require('fzf-lua').files()<CR>", { silent = true })
 keymap("n", "<leader>g", "<cmd>lua require('fzf-lua').grep_project()<CR>", { silent = true })
 
+-- Search within my dotfiles
+keymap("n", "<leader>df", ":lua require('fzf-lua').files({ cwd = vim.fn.expand('~/.dotfiles') })<CR>", opts)
+
+-- Search and replace word under cursor, yay
+keymap(
+	"n",
+	"<leader>s",
+	[[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+	{ desc = "Search and Replace Word Under Cursor" }
+)
+
+-- keymap("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>", opts)
+-- keymap("n", "<M-h>", "<cmd>silent !tmux-sessionizer -s 0 --vsplit<CR>", opts)
+-- keymap("n", "<M-H>", "<cmd>silent !tmux neww tmux-sessionizer -s 0<CR>", opts)
+
 -- Resize with arrows
 keymap("n", "<C-Down>", ":resize -2<CR>", { desc = "Resize Horizontal Split Down" })
 keymap("n", "<C-Up>", ":resize +2<CR>", { desc = "Resize Horizontal Split Up" })

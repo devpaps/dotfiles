@@ -18,6 +18,10 @@ return {
 						"package-lock.json",
 						"yarn.lock",
 						"lazy-lock.json",
+						"vendor",
+						".git",
+						"dist",
+						"build",
 					},
 					layout_config = {
 						horizontal = {

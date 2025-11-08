@@ -9,6 +9,7 @@ return {
 				"lemminx",
 				"intelephense",
 				"stylua",
+				"marksman",
 				"html-lsp",
 				"shellcheck",
 				"css-lsp",
@@ -18,7 +19,7 @@ return {
 				"vtsls",
 				"rust-analyzer",
 				"typescript-language-server",
-				"tailwindcss-language-server",
+				-- "tailwindcss-language-server",
 				"vue-language-server",
 				"antlers-language-server",
 			},
@@ -117,7 +118,10 @@ return {
 						},
 					},
 				},
-				tailwindcss = {},
+				marksman = {
+					filetypes = { "md" },
+				},
+				-- tailwindcss = {},
 				html = {
 					filetypes = { "html" },
 					init_options = {

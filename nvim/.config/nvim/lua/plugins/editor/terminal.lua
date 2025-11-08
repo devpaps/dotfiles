@@ -6,16 +6,17 @@ return {
 		config = true,
 		cmd = "ToggleTerm",
 		build = ":ToggleTerm",
-		keys = { { "<F12>", "<cmd>ToggleTerm<CR>", desc = "Toggle Terminal" } },
 		opts = {
 			open_mapping = [[<F12>]],
-			direction = "vertical",
+			-- directory = "getcwd()<CR>",
+			direction = "float",
 			auto_scroll = true,
 			hide_numbers = true,
 			insert_mappings = true,
 			terminal_mappings = true,
 			start_in_insert = true,
 			close_on_exit = true,
+			shell = "zsh",
 
 			size = function(term)
 				if term.direction == "horizontal" then
