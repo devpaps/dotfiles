@@ -13,6 +13,9 @@
 [fetch]
   prune = true
 
+[pull]
+  rebase = true
+
 [diff]
   colorMoved = default
   ignoreBlankLines = true
