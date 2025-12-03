@@ -37,8 +37,6 @@ alias la="eza -a"
 alias tn="tmux new -s"
 alias tl="tmux ls"
 alias ta="tmux attach -t"
-# alias rf="fzf ${FZF_CTRL_R_OPTS}"
-# alias pf="fzf ${FZF_CTRL_T_OPTS}"
 
 #-------------------------------------------------------------------------------
 # Environment Variables
@@ -57,9 +55,6 @@ export XMODIFIERS=@im=ibus
 # Shortcut to dotfiles
 alias dt="v $HOME/.dotfiles"
 alias zs="v $HOME/.zshrc"
-# export FZF_CTRL_T_OPTS="--preview '(bat --height=100% --paging=never --color=always --style=plain --theme=base16 {} 2>/dev/null || tree -C {}) 2> /dev/null | head -200' --bind page-up:preview-page-up,page-down:preview-page-down"
-# export FZF_CTRL_T_OPTS="--preview='less {}' --height=100% --bind page-up:preview-page-up,page-down:preview-page-down"
-# export FZF_CTRL_T_OPTS="--preview '~/fzf-preview.sh {}' --height=100% --bind page-up:preview-page-up,page-down:preview-page-down"
 export FZF_CTRL_T_OPTS="--preview 'if [ -d {} ]; then tree -C {} | head -200; else ~/fzf-preview.sh {}; fi' --height=100% --bind page-up:preview-page-up,page-down:preview-page-down"
 
 #-------------------------------------------------------------------------------
@@ -110,4 +105,15 @@ export PATH=$PATH:$HOME/go/bin
 #Maven and Java
 export JAVA_HOME=/usr/lib/jvm/java-24-openjdk
 export PATH="$JAVA_HOME/bin:$PATH"
+
+# Show aliases with fzf, i'm old :D
+function show-aliases() {
+    selected=$(grep "^alias " ~/.zshrc | fzf)
+    if [ -n "$selected" ]; then
+        zle -U "$(echo "$selected" | cut -d'=' -f2- | cut -d'#' -f1 | tr -d '"' | xargs)"
+    fi
+}
+
+zle -N show-aliases
+bindkey '^X^A' show-aliases
 
