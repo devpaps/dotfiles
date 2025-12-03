@@ -13,6 +13,9 @@ return {
 
 			local opts = {
 				defaults = {
+					preview = {
+						treesitter = false,
+					},
 					file_ignore_patterns = {
 						"node_modules",
 						"package-lock.json",
