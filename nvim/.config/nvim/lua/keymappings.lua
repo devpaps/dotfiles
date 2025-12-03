@@ -38,10 +38,12 @@ keymap("n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
 keymap("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts)
 keymap("n", "go", "<cmd>Telescope lsp_type_definitions<CR>", opts)
 keymap("n", "<leader>f", "<cmd>lua require('fzf-lua').files()<CR>", { silent = true })
-keymap("n", "<leader>g", "<cmd>lua require('fzf-lua').grep_project()<CR>", { silent = true })
+keymap("n", "<leader>g", "<cmd>lua require('fzf-lua').live_grep()<CR>", { silent = true })
 
 -- Search within my dotfiles
 keymap("n", "<leader>df", ":lua require('fzf-lua').files({ cwd = vim.fn.expand('~/.dotfiles') })<CR>", opts)
+
+keymap("n", "<leader>sv", ":source $MYVIMRC<CR>", { desc = "Source config" })
 
 -- Search and replace word under cursor, yay
 keymap(
