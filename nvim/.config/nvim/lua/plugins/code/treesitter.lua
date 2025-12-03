@@ -4,7 +4,8 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		version = false,
 		build = ":TSUpdate",
-		event = { "VeryLazy" },
+		branch = "main",
+		lazy = false,
 		config = function()
 			vim.filetype.add({
 				extension = { rasi = "rasi", rofi = "rasi", wofi = "rasi" },
@@ -21,56 +22,68 @@ return {
 				},
 			})
 
-			local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-			parser_config.blade = {
-				install_info = {
-					url = "https://github.com/EmranMR/tree-sitter-blade",
-					files = { "src/parser.c" },
-					branch = "main",
-				},
-				filetype = "blade",
+			local treesitter = require("nvim-treesitter")
+			local install_dir = vim.fn.stdpath("data") .. "/site"
+			treesitter.setup({
+				install_dir = install_dir,
+			})
+			vim.opt.runtimepath:append(install_dir)
+
+			local ensure_installed = {
+				"bash",
+				"git_config",
+				"c",
+				"diff",
+				"blade",
+				"html",
+				"php",
+				"javascript",
+				"jsdoc",
+				"json",
+				"jsonc",
+				"lua",
+				"luadoc",
+				"luap",
+				"markdown",
+				"markdown_inline",
+				"python",
+				"query",
+				"regex",
+				"toml",
+				"tsx",
+				"typescript",
+				"vim",
+				"vimdoc",
+				"yaml",
 			}
+			treesitter.install(ensure_installed)
 
-			vim.treesitter.language.register("blade", "blade")
+			-- vim.api.nvim_create_autocmd("User", {
+			-- 	pattern = "TSUpdate",
+			-- 	callback = function()
+			-- 		require("nvim-treesitter.parsers").blade = {
+			-- 			install_info = {
+			-- 				url = "https://github.com/EmranMR/tree-sitter-blade",
+			-- 				files = { "src/parser.c" },
+			-- 				branch = "main",
+			-- 				queries = "queries",
+			-- 			},
+			-- 			filetype = "blade",
+			-- 		}
+			-- 	end,
+			-- })
 
-			-- Register "bash" for "kitty" files
-			vim.treesitter.language.register("bash", "kitty")
-
-			local config = require("nvim-treesitter.configs")
-			config.setup({
-				ensure_installed = {
-					"bash",
-					"git_config",
-					"c",
-					"diff",
-					"php",
-					"html",
-					"javascript",
-					"jsdoc",
-					"json",
-					"jsonc",
-					"lua",
-					"luadoc",
-					"luap",
-					"markdown",
-					"markdown_inline",
-					"python",
-					"query",
-					"regex",
-					"toml",
-					"tsx",
-					"typescript",
-					"vim",
-					"vimdoc",
-					"yaml",
-				},
-				auto_install = true,
-				highlight = {
-					enable = true,
-				},
-				indent = {
-					enable = true,
-				},
+			-- vim.treesitter.language.register("blade", "blade")
+			-- vim.treesitter.language.register("bash", "kitty")
+			--
+			-- Enable highlighting and indentation for supported filetypes
+			local patterns = ensure_installed
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = patterns,
+				callback = function(args)
+					vim.treesitter.start(args.buf)
+					vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				end,
 			})
 		end,
 	},
