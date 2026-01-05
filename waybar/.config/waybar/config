@@ -1,43 +1,24 @@
 {
   "layer": "top",
   "position": "top",
-  "height": 30,
+  "height": 28,
   "modules-left": [
     "sway/workspaces",
-    "custom/separator",
     "temperature",
-    "custom/separator",
-    "custom/spotify",
-    "custom/separator",
-    "idle_inhibitor"
+    "custom/spotify"
   ],
   "modules-center": [
     "sway/window"
   ],
   "modules-right": [
+    "idle_inhibitor",
     "network",
-    "custom/separator",
     "pulseaudio",
-    "custom/separator",
     "backlight",
-    "custom/separator",
-    "cpu",
-    "custom/separator",
-    "memory",
-    "custom/separator",
     "battery",
-    "custom/separator",
-    "disk",
-    "custom/separator",
     "clock",
-    "custom/separator",
     "tray"
   ],
-  "custom/separator": {
-    "format": "|",
-    "interval": "once",
-    "tooltip": false
-  },
   "sway/workspaces": {
     "disable-scroll": true,
     "persistent_workspaces": {
@@ -50,99 +31,96 @@
     }
   },
   "custom/spotify": {
-    "format": "{}",
-    "exec": "~/.config/waybar/spotify-status.sh",
+    "format": " {text}",
     "interval": 1,
+    "tooltip": true,
+    "exec": "~/.config/waybar/spotify-status.sh",
     "return-type": "json"
   },
   "clock": {
-    "format": "<span foreground='#7dcfff'></span> {:%d %B - %H:%M}",
-    "format-alt": "{:%A, %B %d, %Y}  ",
+    "format": " {:%H:%M}",
+    "format-alt": " {:%d/%m}",
     "interval": 60,
     "tooltip": true,
-    "tooltip-format": "<tt>{calendar}</tt>"
-  },
-  "disk": {
-    "interval": 18000,
-    "format": "<span foreground='#9ece6a'>﫭</span> {percentage_used}%",
-    "tooltip-format": "{used} discspace used out of {total} on {path}"
-  },
-  "cpu": {
-    "interval": 1,
-    "format": "<span foreground='#e0af68'></span> {usage}%"
-  },
-  "memory": {
-    "interval": 300,
-    "format": "<span foreground='#7aa2f7'>﬙</span> {percentage}%",
-    "tooltip-format": "{used:0.2f}GiB RAM used out of {total:0.2f}GiB"
+    "tooltip-format": "{:%A, %B %d, %Y - %H:%M:%S}"
   },
   "battery": {
-    "interval": 600,
-    "design-capacity": false,
+    "interval": 30,
     "states": {
       "warning": 15,
       "critical": 10
     },
-    "format": "<span foreground='#f7768e'>{icon}  </span> {capacity}%",
-    "format-charging": "<span foreground='#f7768e'>  </span> {capacity}%",
-    "format-pending-charge": "<span foreground='red'> Pending  </span> {capacity}%",
-    "format-critical": "<span foreground='#E38C8F'>{icon}</span> {capacity}%",
-    "format-time": "{H}h {M}m",
+    "format": "<span foreground='#f7768e'>{icon}</span> {capacity}%",
+    "format-charging": "<span foreground='#f7768e'></span>{capacity}%",
     "format-icons": [
       "",
       "",
       "",
       "",
       ""
-    ]
+    ],
+    "format-pending-charge": "<span foreground='red'> Pending  </span> {capacity}%",
+    "format-critical": "<span foreground='#E38C8F'>{icon}</span> {capacity}%",
+    "format-time": "{H}h {M}m",
+    "tooltip": true,
+    "tooltip-format": "Battery: {capacity}%"
   },
   "tray": {
-    "icon-size": 15,
-    "spacing": 5
+    "icon-size": 14,
+    "spacing": 8,
+    "tooltip": true
   },
   "network": {
-    "interval": 1,
-    "format-wifi": "<span foreground='#61AF1F'>   </span> {essid} ({signalStrength}%)",
-    "format-ethernet": "<span foreground='#61AF1F'></span> {ifname}",
-    "format-linked": "<span foreground='#61AF1F'>   </span> {essid} (No IP)",
-    "format-disconnected": "<span foreground='#61AF1F'>   </span> Disconnected",
-    "tooltip": false
+    "interval": 5,
+    "format-wifi": "WiFi",
+    "format-ethernet": "Eth",
+    "format-linked": "WiFi",
+    "format-disconnected": "No Net",
+    "tooltip-format-wifi": "WiFi: {essid} ({signalStrength}%)",
+    "tooltip-format-ethernet": "Ethernet: {ifname}",
+    "tooltip-format-disconnected": "Disconnected"
   },
   "backlight": {
-    "tooltip": false,
-    "format": "<span foreground='#b48ead'></span> {}%",
+    "tooltip": true,
+    "format": " {}%",
     "interval": 1,
+    "tooltip-format": "Brightness: {}%",
     "on-scroll-up": "light -A 5",
     "on-scroll-down": "light -U 5"
   },
   "pulseaudio": {
-    "format": "<span foreground='#d08770'>{icon} </span> {volume}%",
-    "format-muted": "婢 Muted",
-    "format-icons": {
-      "default": [
-        "",
-        "",
-        ""
-      ]
-    },
+    "format": "{icon}",
+    "format-muted": "Muted",
+    "format-icons": [
+      "Low",
+      "Med",
+      "High"
+    ],
     "on-click": "pavucontrol",
     "on-click-right": "blueman-manager",
     "states": {
       "warning": 85
     },
     "scroll-step": 1,
-    "tooltip": false
+    "tooltip": true,
+    "tooltip-format": "Volume: {volume}%"
   },
   "temperature": {
     "hwmon-path": "/sys/class/hwmon/hwmon5/temp2_input",
-    "format": " {temperatureC}°C",
-    "tooltip": false
+    "format": "{temperatureC}°C",
+    "interval": 5,
+    "tooltip": true,
+    "tooltip-format": "Temperature CPU: {temperatureC}°C",
+    "critical-threshold": 80
   },
   "idle_inhibitor": {
     "format": "{icon}",
     "format-icons": {
-      "activated": "",
-      "deactivated": ""
-    }
+      "activated": "ON",
+      "deactivated": "OFF"
+    },
+    "tooltip": true,
+    "tooltip-format-activated": "Idle Inhibition Active",
+    "tooltip-format-deactivated": "Idle Inhibition Inactive"
   }
 }

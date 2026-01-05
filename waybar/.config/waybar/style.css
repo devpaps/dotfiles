@@ -1,102 +1,225 @@
+/* Minimal Waybar Design */
 * {
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif, "Font Awesome 6 Free";
-  font-size: 12pt;
+  font-family: "JetBrains Mono", "Font Awesome 6 Free", monospace;
+  font-size: 13px;
   border: none;
-  border-radius: 0;
-  transition-property: background-color;
-  transition-duration: 0.5s;
+  margin: 0;
+  padding: 0;
+  min-height: 0;
 }
+
+/* Main bar styling */
 window#waybar {
+  background: rgba(36, 40, 59, 0.85);
   color: #c0caf5;
-  background-color: #24283b;
-  border-bottom: 1px solid #414868;
-  transition-duration: 0.5s;
-  transition-property: background-color;
+  margin: 8px 12px;
+  padding: 2px 8px;
+  transition: all 0.3s ease;
 }
+
+/* Workspace buttons - clean and minimal */
+#workspaces {
+  margin: 0 4px;
+}
+
 #workspaces button {
-  background: #24283b;
-  color: #c0caf5;
-  border-bottom: 1px solid #414868;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-left: 4px;
-  padding-right: 4px;
+  background: transparent;
+  color: #565f89;
+  padding: 4px 2px;
+  margin: 0 2px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  min-width: 24px;
 }
+
+#workspaces button:hover {
+  background: rgba(129, 140, 248, 0.1);
+  color: #9aa5ce;
+}
+
 #workspaces button.focused {
+  background: rgba(129, 140, 248, 0.2);
   color: #c0caf5;
-  background: #414868;
+  border-bottom: 2px solid #7aa2f7;
 }
+
 #workspaces button.urgent {
-  color: #f7768e;
+  background: rgba(244, 114, 182, 0.2);
+  color: #f4a8d5;
 }
+
 #workspaces button.persistent {
   color: #414868;
+  font-size: 10px;
 }
-#workspaces button:hover {
+
+/* Current window title */
+#window {
   color: #c0caf5;
-  background: #414868;
-  box-shadow: inherit;
+  font-weight: bold;
+  margin: 0 8px;
+  opacity: 0.8;
 }
+
+/* Module styling - minimal with consistent spacing */
 #clock,
 #idle_inhibitor,
-#disk,
-#backlight,
-#custom-weather,
 #temperature,
-#bluetooth,
 #network,
 #pulseaudio,
-#cpu,
-#memory,
+#backlight,
 #battery,
 #custom-spotify,
-#mode {
-  margin: 0px 2px; /* gaps between modules */
-  padding: 0.2rem 0.6rem;
-  color: #c0caf5;
-  background: #24283b;
-  border-bottom: 1px solid #414868;
-}
-#mode,
 #tray {
-  margin: 0 5px 0 2px;
+  background: transparent;
+  color: #9aa5ce;
+  padding: 4px 8px;
+  margin: 0 2px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
 }
-@keyframes blink {
-  to {
-    color: #c0caf5;
-    background-color: #24283b;
-  }
+
+/* Hover effects */
+#clock:hover,
+#idle_inhibitor:hover,
+#temperature:hover,
+#network:hover,
+#pulseaudio:hover,
+#backlight:hover,
+#battery:hover,
+#custom-spotify:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #c0caf5;
 }
-#battery.critical:not(.charging) {
-  animation-name: blink;
-  animation-duration: 0.5s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
+
+#custom-spotify {
+  color: #1db954;
+}
+
+#custom-spotify:hover {
+  background: rgba(29, 185, 84, 0.1);
+}
+
+#temperature {
+  color: #e0af68;
+}
+
+#temperature.critical {
   color: #f7768e;
-  background-color: #24283b;
+  animation: pulse 2s infinite;
 }
+
+#network {
+  color: #9ece6a;
+}
+
+#pulseaudio {
+  color: #d08770;
+}
+
+#backlight {
+  color: #b48ead;
+}
+
+#battery {
+  color: #f7768e;
+}
+
 #battery.charging {
   color: #9ece6a;
-  background-color: #24283b;
 }
-#custom-spotify.playing {
-  color: #c0caf5;
-  background-color: #24283b;
+
+#battery.critical:not(.charging) {
+  animation: blink 1s infinite;
 }
-#custom-spotify.paused {
-  color: #414868;
-  background-color: #24283b;
-}
-#custom-spotify.stopped {
-  background: transparent;
-  color: #414868;
-}
-#custom-separator {
-  color: #414868;
-  background: #24283b;
-  border-bottom: 1px solid #414868;
-}
+
 #idle_inhibitor {
-  color: #b5e8e0;
+  color: #7aa2f7;
 }
+
+#clock {
+  color: #7dcfff;
+  font-weight: 500;
+}
+
+/* Tray styling */
+#tray {
+  margin-left: 8px;
+}
+
+#tray > .passive {
+  opacity: 0.6;
+}
+
+#tray > .needs-attention {
+  animation: pulse 2s infinite;
+}
+
+/* Animations */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Module grouping for better spacing */
+.modules-left,
+.modules-center,
+.modules-right {
+  margin: 0 4px;
+}
+
+.modules-right > *:not(:last-child) {
+  margin-right: 6px;
+}
+
+.modules-left > *:not(:last-child) {
+  margin-right: 6px;
+}
+
+/* Tooltip styling */
+tooltip {
+  background: rgba(24, 25, 38, 0.95);
+  border: 1px solid rgba(129, 140, 248, 0.3);
+  border-radius: 8px;
+  color: #c0caf5;
+  padding: 8px 12px;
+  font-size: 10px;
+}
+
+/* Clean up any remaining visual noise */
+window#waybar.hidden {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Focus states for accessibility */
+#workspaces button:focus {
+  outline: 2px solid rgba(129, 140, 248, 0.5);
+  outline-offset: 2px;
+}
+
