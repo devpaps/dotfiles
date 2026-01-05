@@ -40,7 +40,6 @@ return {
 				"javascript",
 				"jsdoc",
 				"json",
-				"jsonc",
 				"lua",
 				"luadoc",
 				"luap",
@@ -72,7 +71,7 @@ return {
 			-- 		}
 			-- 	end,
 			-- })
-
+			--
 			-- vim.treesitter.language.register("blade", "blade")
 			-- vim.treesitter.language.register("bash", "kitty")
 			--

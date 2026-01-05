@@ -140,8 +140,9 @@ vim.api.nvim_create_autocmd("BufRead", {
 })
 
 -- vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
--- 	pattern = "*.blade.php",
+-- 	pattern = "*.blade*",
 -- 	callback = function()
 -- 		vim.bo.filetype = "blade"
+-- 		vim.opt_local.commentstring = "{{<!-- %s -->}}"
 -- 	end,
 -- })
