@@ -52,7 +52,7 @@ bindsym shift+XF86MonBrightnessDown exec light -U 25
 # ------------------------
 
 # Set default wallpaper (change the path to your preferred wallpaper)
-set $background ~/Wallpaper/reach_for_the_stars.png
+set $background ~/Wallpaper/mount-fuji.jpg
 output * bg $background fill
 
 # Laptop below primary monitor
@@ -78,10 +78,6 @@ exec swayidle -w \
 exec swayidle -w \
     timeout 1200 'swaymsg "output * dpms off"; sleep 1' \
     resume 'swaymsg "output * dpms on"'
-# exec swayidle -w \
-#           timeout 600 'swaylock -f -c 000000' \
-#           timeout 1200 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-#           before-sleep 'swaylock -f -c 000000'
 
 # ------------------------
 # 6. LAYOUT & GAP CONFIGURATION
@@ -98,12 +94,11 @@ gaps outer 5
 # for_window [class="^.*"] inhibit_idle fullscreen
 # for_window [app_id="^.*"] inhibit_idle fullscreen
 
-# Screenshot keybindings
-# Screenshot of the whole screen
-bindsym $mod+shift+s exec grim - | swappy -f -
+# Full screen screenshot → edit with Satty
+bindsym $mod+shift+s exec grim - | satty --filename - --output-filename "$HOME/Pictures/Screenshots/screenshot-$(date +'%Y-%m-%d-%H-%M-%S-%N').png" 
 
-# Screenshot part of the screen
-bindsym $mod+control+s exec grim -g "$(slurp)" - | swappy -f -
+# Selected area → edit with Satty
+bindsym $mod+control+s exec grim -g "$(slurp)" - | satty --filename - --output-filename "$HOME/Pictures/Screenshots/screenshot-$(date +'%Y-%m-%d-%H-%M-%S-%N').png"
 
 # ------------------------
 # 7. INPUT CONFIGURATION
