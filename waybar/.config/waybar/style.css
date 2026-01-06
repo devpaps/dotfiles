@@ -155,6 +155,15 @@ window#waybar {
   animation: pulse 2s infinite;
 }
 
+#custom-spotify.paused {
+  color: #414868;
+  background-color: transparent;
+}
+#custom-spotify.stopped {
+  background: transparent;
+  color: #414868;
+}
+
 /* Animations */
 @keyframes pulse {
   0% {
@@ -222,4 +231,3 @@ window#waybar.hidden {
   outline: 2px solid rgba(129, 140, 248, 0.5);
   outline-offset: 2px;
 }
-
