@@ -13,6 +13,7 @@
   "modules-right": [
     "idle_inhibitor",
     "network",
+    "network#vpn",
     "pulseaudio",
     "backlight",
     "battery",
@@ -45,6 +46,7 @@
     "tooltip-format": "{:%A, %B %d, %Y - %H:%M:%S}"
   },
   "battery": {
+    "design-capacity": false,
     "interval": 30,
     "states": {
       "warning": 15,
@@ -63,7 +65,7 @@
     "format-critical": "<span foreground='#E38C8F'>{icon}</span> {capacity}%",
     "format-time": "{H}h {M}m",
     "tooltip": true,
-    "tooltip-format": "Battery: {capacity}%"
+    "tooltip-format": "Battery: {capacity}%\nTime remaining: {timeTo}\nPower: {power}W"
   },
   "tray": {
     "icon-size": 14,
@@ -79,6 +81,13 @@
     "tooltip-format-wifi": "WiFi: {essid} ({signalStrength}%)",
     "tooltip-format-ethernet": "Ethernet: {ifname}",
     "tooltip-format-disconnected": "Disconnected"
+  },
+  "network#vpn": {
+    "interface": "proton0",
+    "interval": "5",
+    "format": " VPN",
+    "format-disconnected": "",
+    "tooltip-format": "ProtonVPN: {ifname}"
   },
   "backlight": {
     "tooltip": true,
