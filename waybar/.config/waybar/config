@@ -13,7 +13,6 @@
   "modules-right": [
     "idle_inhibitor",
     "network",
-    "network#vpn",
     "pulseaudio",
     "backlight",
     "battery",
@@ -76,18 +75,12 @@
     "interval": 5,
     "format-wifi": "WiFi",
     "format-ethernet": "Eth",
-    "format-linked": "WiFi",
+    "format-linked": " VPN",
     "format-disconnected": "No Net",
     "tooltip-format-wifi": "WiFi: {essid} ({signalStrength}%)",
     "tooltip-format-ethernet": "Ethernet: {ifname}",
-    "tooltip-format-disconnected": "Disconnected"
-  },
-  "network#vpn": {
-    "interface": "proton0",
-    "interval": "5",
-    "format": " VPN",
-    "format-disconnected": "",
-    "tooltip-format": "ProtonVPN: {ifname}"
+    "tooltip-format-disconnected": "Disconnected",
+    "tooltip-format-linked": "VPN: Connected via {ifname}"
   },
   "backlight": {
     "tooltip": true,
