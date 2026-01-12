@@ -38,8 +38,8 @@
     "return-type": "json"
   },
   "clock": {
-    "format": " {:%H:%M}",
-    "format-alt": " {:%d/%m}",
+    "format": "{:%H:%M}",
+    "format-alt": "{:%d/%m}",
     "interval": 60,
     "tooltip": true,
     "tooltip-format": "{:%A, %B %d, %Y - %H:%M:%S}"
@@ -75,7 +75,7 @@
     "interval": 5,
     "format-wifi": "WiFi",
     "format-ethernet": "Eth",
-    "format-linked": " VPN",
+    "format-linked": " VPN",
     "format-disconnected": "No Net",
     "tooltip-format-wifi": "WiFi: {essid} ({signalStrength}%)",
     "tooltip-format-ethernet": "Ethernet: {ifname}",
