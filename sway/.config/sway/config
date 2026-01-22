@@ -31,6 +31,7 @@ set $lockman exec bash ~/.config/sway/lockman.sh
 for_window 	[app_id="Calculator"] floating 	    enable
 for_window  [app_id="kitty"]      opacity 0.95
 for_window  [title="Friends List"]      floating      enable
+for_window  [title="File Operation Progress"] floating     enable
 # Floating gnome-calculator
 for_window [app_id="gnome-calculator"] floating enable
 
