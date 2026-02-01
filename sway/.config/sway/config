@@ -21,7 +21,8 @@ set $term kitty
 
 # Your preferred application launcher
 set $menu pgrep rofi >/dev/null 2>&1 && killall rofi || rofi -show drun -monitor "$(swaymsg -t get_outputs | jq -r '.[] | select(.focused).name')"
-set $lockman exec bash ~/.config/sway/lockman.sh
+# set $lockman exec bash ~/.config/sway/lockman.sh
+set $lockman exec hyprlock
 
 # ------------------------
 # 2. WINDOW RULES
@@ -71,9 +72,9 @@ output eDP-1 pos 0 0 res 1920x1200 scale 1
 
 # Set idle timeout and actions
 exec swayidle -w \
-    timeout 600 'swaylock -f -c 000000' \
+    timeout 600 'hyprlock' \
     resume 'echo "Resumed from idle lock"' \
-    before-sleep 'swaylock -f -c 000000'
+    before-sleep 'hyprlock'
 
 # DPMS off/on (separate second process)
 exec swayidle -w \
