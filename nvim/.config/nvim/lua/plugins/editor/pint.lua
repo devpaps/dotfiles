@@ -1,5 +1,6 @@
 return {
 	"oliverhkraft/nvim-pint",
+	event = "VeryLazy",
 	config = function()
 		require("nvim-pint").setup({
 			silent = true, -- No notifications

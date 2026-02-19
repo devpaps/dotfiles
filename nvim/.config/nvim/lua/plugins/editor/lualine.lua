@@ -22,7 +22,7 @@ return {
 
 		return {
 			options = {
-				theme = "rose-pine",
+				theme = "gruvbox",
 				globalstatus = false,
 				disabled_filetypes = { statusline = { "dashboard", "alpha", "starter", "neotree" } },
 			},

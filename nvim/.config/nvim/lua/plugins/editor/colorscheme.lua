@@ -1,22 +1,19 @@
 return {
-	-- {
-	-- 	"ellisonleao/gruvbox.nvim",
-	-- 	priority = 1000,
-	-- 	config = function()
-	-- 		vim.cmd.colorscheme("gruvbox")
-	-- 	end,
-	-- },
 	{
-		"rose-pine/neovim",
-		name = "rose-pine",
+		"ellisonleao/gruvbox.nvim",
 		priority = 1000,
-		opts = {
-			transparency = true,
-		},
 		config = function()
-			vim.cmd.colorscheme("rose-pine")
+			vim.cmd.colorscheme("gruvbox")
 		end,
 	},
+	-- {
+	-- 	"rose-pine/neovim",
+	-- 	name = "rose-pine",
+	-- 	priority = 1000,
+	-- 	config = function()
+	-- 		vim.cmd.colorscheme("rose-pine")
+	-- 	end,
+	-- },
 	-- {
 	-- 	"catppuccin/nvim",
 	-- 	name = "catppuccin",
