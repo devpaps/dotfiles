@@ -11,6 +11,7 @@ return {
 				typescript = { "prettier" },
 				javascriptreact = { "prettier" },
 				typescriptreact = { "prettier" },
+				vue = { "prettier" },
 				rust = { "rust-analyser" },
 				svelte = { "prettier" },
 				css = { "prettier" },

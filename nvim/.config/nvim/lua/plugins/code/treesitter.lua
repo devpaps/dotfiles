@@ -8,7 +8,7 @@ return {
 		lazy = false,
 		config = function()
 			vim.filetype.add({
-				extension = { rasi = "rasi", rofi = "rasi", wofi = "rasi" },
+				extension = { rasi = "rasi", rofi = "rasi", wofi = "rasi", antlers = "antlers" },
 				filename = {
 					["vifmrc"] = "vim",
 				},
@@ -19,6 +19,8 @@ return {
 					[".*/hypr/.+%.conf"] = "hyprlang",
 					["%.env%.[%w_.-]+"] = "sh",
 					[".*%.blade%.php"] = "blade",
+					[".*%.antlers%.php"] = "antlers",
+					["%.antlers"] = "antlers",
 				},
 			})
 
