@@ -68,15 +68,13 @@ return {
 			"folke/neodev.nvim",
 		},
 		config = function()
-			local lspconfig = require("lspconfig")
-			local util = require("lspconfig.util")
 			local function disable_formatting(client)
 				client.server_capabilities.documentFormattingProvider = false
 				client.server_capabilities.documentRangeFormattingProvider = false
 			end
 
 			local servers = {
-				volar = {
+				vue_ls = {
 					init_options = {
 						vue = {
 							hybridMode = true,
@@ -88,8 +86,15 @@ return {
 					end,
 				},
 				vtsls = {
-					filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
+					filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact", "vue" },
 					cmd = { "vtsls", "--stdio" },
+					on_attach = function(client, bufnr)
+						-- Disable formatting for Vue files (use conform.nvim instead)
+						if vim.bo[bufnr].filetype == "vue" then
+							client.server_capabilities.documentFormattingProvider = false
+							client.server_capabilities.documentRangeFormattingProvider = false
+						end
+					end,
 					settings = {
 						complete_function_calls = true,
 						vtsls = {
@@ -223,47 +228,126 @@ return {
 					on_attach = function(client, bufnr)
 						vim.api.nvim_create_autocmd("BufWritePre", {
 							buffer = bufnr,
-							command = "EslintFixAll",
+							callback = function()
+								if vim.fn.exists(":EslintFixAll") > 0 then
+									vim.cmd("EslintFixAll")
+								end
+							end,
 						})
 					end,
 				},
-				antlersls = {},
+				antlersls = {
+					filetypes = { "antlers", "html" },
+					settings = {
+						antlers = {
+							formatFrontMatter = true,
+						},
+					},
+					root_dir = function(fname)
+						return vim.fs.root(fname, { "composer.json", ".git" }) or vim.fs.dirname(fname)
+					end,
+				},
 				intelephense = {
 					filetypes = { "php", "blade" },
-				},
-				phpactor = {
-					filetypes = { "php", "blade" },
-					on_attach = function(client, bufnr)
-						vim.api.nvim_buf_set_keymap(
-							bufnr,
-							"n",
-							"gd",
-							"<cmd>PhpactorGotoDefinition<CR>",
-							{ noremap = true, silent = true }
-						)
-						vim.api.nvim_buf_set_keymap(
-							bufnr,
-							"n",
-							"gr",
-							"<cmd>PhpactorFindReferences<CR>",
-							{ noremap = true, silent = true }
-						)
-						vim.api.nvim_buf_set_keymap(
-							bufnr,
-							"n",
-							"<leader>rn",
-							"<cmd>PhpactorRename<CR>",
-							{ noremap = true, silent = true }
-						)
-					end,
+					settings = {
+						intelephense = {
+							files = {
+								maxSize = 5000000, -- 5MB file size limit
+							},
+							stubs = {
+								"apache",
+								"bcmath",
+								"bz2",
+								"calendar",
+								"com_dotnet",
+								"Core",
+								"ctype",
+								"curl",
+								"date",
+								"dba",
+								"dom",
+								"enchant",
+								"exif",
+								"FFI",
+								"fileinfo",
+								"filter",
+								"fpm",
+								"ftp",
+								"gd",
+								"gettext",
+								"gmp",
+								"hash",
+								"iconv",
+								"imap",
+								"intl",
+								"json",
+								"ldap",
+								"libxml",
+								"mbstring",
+								"meta",
+								"mysqli",
+								"oci8",
+								"odbc",
+								"openssl",
+								"pcntl",
+								"pcre",
+								"PDO",
+								"pdo_ibm",
+								"pdo_mysql",
+								"pdo_pgsql",
+								"pdo_sqlite",
+								"pgsql",
+								"Phar",
+								"posix",
+								"pspell",
+								"readline",
+								"Reflection",
+								"session",
+								"shmop",
+								"SimpleXML",
+								"snmp",
+								"soap",
+								"sockets",
+								"sodium",
+								"SPL",
+								"sqlite3",
+								"standard",
+								"superglobals",
+								"sysvmsg",
+								"sysvsem",
+								"sysvshm",
+								"tidy",
+								"tokenizer",
+								"xml",
+								"xmlreader",
+								"xmlrpc",
+								"xmlwriter",
+								"xsl",
+								"Zend OPcache",
+								"zip",
+								"zlib",
+								"wordpress",
+								"woocommerce",
+								"acf-pro",
+								"wordpress-globals",
+								"wp-cli",
+								"polylang",
+								"laravel",
+							},
+						},
+					},
 				},
 				lemminx = {},
 				jsonls = {},
 			}
 
+			-- Register server configurations with vim.lsp.config
 			for lsp, config in pairs(servers) do
-				lspconfig[lsp].setup(config)
+				vim.lsp.config[lsp] = config
 			end
+
+			-- Enable all configured servers
+			vim.lsp.enable(vim.tbl_keys(servers))
 		end,
 	},
 }
