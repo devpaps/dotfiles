@@ -68,22 +68,7 @@ output DP-8 pos 1920 0 res 2560x1440 scale 1
 output eDP-1 pos 0 0 res 1920x1200 scale 1
 
 # ------------------------
-# 5. IDLE CONFIGURATION
-# ------------------------
-
-# Set idle timeout and actions
-exec swayidle -w \
-    timeout 600 'hyprlock' \
-    resume 'echo "Resumed from idle lock"' \
-    before-sleep 'hyprlock'
-
-# DPMS off/on (separate second process)
-exec swayidle -w \
-    timeout 1200 'swaymsg "output * dpms off"; sleep 1' \
-    resume 'swaymsg "output * dpms on"'
-
-# ------------------------
-# 6. LAYOUT & GAP CONFIGURATION
+# 5. LAYOUT & GAP CONFIGURATION
 # ------------------------
 
 # Set gaps and layout preferences
@@ -104,7 +89,7 @@ bindsym $mod+shift+s exec grim - | satty --filename - --output-filename "$HOME/P
 bindsym $mod+control+s exec grim -g "$(slurp)" - | satty --filename - --output-filename "$HOME/Pictures/Screenshots/screenshot-$(date +'%Y-%m-%d-%H-%M-%S-%N').png"
 
 # ------------------------
-# 7. INPUT CONFIGURATION
+# 6. INPUT CONFIGURATION
 # ------------------------
 
 # Configure touchpad and other input devices
@@ -126,7 +111,7 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 
 
 # ------------------------
-# 8. WINDOW BORDER & TITLE CONFIGURATION
+# 7. WINDOW BORDER & TITLE CONFIGURATION
 # ------------------------
 
 # Set window border and titlebar preferences
@@ -142,7 +127,7 @@ input * {
 }
 
 # ------------------------
-# 9. ADDITIONAL KEY BINDINGS
+# 8. ADDITIONAL KEY BINDINGS
 # ------------------------
 
 # Define additional keybindings
@@ -227,6 +212,7 @@ exec --no-startup-id nm-applet --indicator
 exec --no-startup-id blueman-applet
 exec --no-startup-id pactl set-default-sink alsa_output.usb-Creative_Technology_Ltd_Sound_BlasterX_G1_00108378-00.analog-stereo
 exec --no-startup-id pactl set-default-source alsa_output.usb-USB_Microphone_Galder_V2_2018_06_26-00.analog-stereo
+exec hypridle
 
 # Include additional configuration files
 include /etc/sway/config.d/*
