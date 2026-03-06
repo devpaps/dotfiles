@@ -35,6 +35,7 @@ return {
 				"bash",
 				"git_config",
 				"c",
+				"css",
 				"diff",
 				"blade",
 				"html",
@@ -55,6 +56,7 @@ return {
 				"typescript",
 				"vim",
 				"vimdoc",
+				"vue",
 				"yaml",
 			}
 			treesitter.install(ensure_installed)
