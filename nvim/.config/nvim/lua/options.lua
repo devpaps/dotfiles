@@ -14,6 +14,7 @@ vim.g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
 local opt = vim.opt
 
 opt.autowrite = true -- Enable auto write
+opt.autowriteall = true -- Write all buffers on SIGHUP/SIGQUIT
 opt.clipboard = "unnamedplus" -- Sync with system clipboard
 opt.completeopt = "menu,menuone,noselect"
 opt.conceallevel = 1 -- Hide * markup for bold and italic
@@ -31,6 +32,8 @@ opt.list = true -- Show some invisible characters (tabs...
 opt.mouse = "a" -- Enable mouse mode
 opt.number = true -- Print line number
 opt.pumblend = 10 -- Popup blend
+opt.pummaxwidth = 80
+opt.pumborder = "rounded"
 opt.pumheight = 15 -- Increase items in completion popup
 opt.relativenumber = true -- Relative line numbers
 opt.scrolloff = 8 -- Keep more context when scrolling
@@ -44,17 +47,16 @@ opt.sidescrolloff = 8 -- Keep more context when side scrolling
 opt.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
 opt.smartcase = true -- Don't ignore case with capitals
 opt.smartindent = true -- Insert indents automatically
-opt.spell = true
-opt.spelllang = { "en", "sv" }
+-- opt.spell = true
+-- opt.spelllang = { "en", "sv" }
 opt.splitbelow = true -- Put new windows below current
 opt.splitkeep = "screen" -- Keep text on screen while splitting
 opt.splitright = true -- Put new windows right of current
+opt.shelltemp = false
 opt.tabstop = 2 -- Number of spaces tabs count for
 opt.termguicolors = true -- True color support
 opt.timeoutlen = 300
 opt.undofile = true
-opt.undolevels = 10000
-opt.updatetime = 200 -- Save swap file and trigger CursorHold
 opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
 opt.wildmode = "longest:full,full" -- Command-line completion mode
 opt.winminwidth = 5 -- Minimum window width
@@ -76,7 +78,7 @@ end
 -- Folding
 vim.opt.foldlevel = 99
 
--- Fix markdown indentation settings
+opt.diffopt = { indent = true, horizontal = true, "indent-heuristic", "inline:char" }
 vim.g.markdown_recommended_style = 0
 
 -- Add these performance-related options
@@ -118,3 +120,17 @@ opt.writebackup = false -- Don't create backup before overwriting file
 opt.swapfile = false -- Don't create swap files
 opt.undofile = true -- Enable persistent undo
 opt.undolevels = 10000 -- Maximum number of changes that can be undone
+
+-- LSP Info command
+vim.api.nvim_create_user_command("LspInfo", function()
+	local clients = vim.lsp.get_clients()
+	if #clients == 0 then
+		print("No LSP clients attached")
+		return
+	end
+	local lines = { "Active LSP clients:" }
+	for _, client in ipairs(clients) do
+		table.insert(lines, string.format("  - %s (id: %d)", client.name, client.id))
+	end
+	print(table.concat(lines, "\n"))
+end, {})
