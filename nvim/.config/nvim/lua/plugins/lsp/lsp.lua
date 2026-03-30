@@ -13,15 +13,16 @@ return {
 				"html-lsp",
 				"shellcheck",
 				"css-lsp",
+				"eslint-lsp",
 				"eslint_d",
 				"prettier",
 				"prettierd",
-				"vtsls",
 				"rust-analyzer",
-				"typescript-language-server",
-				-- "tailwindcss-language-server",
 				"vue-language-server",
 				"antlers-language-server",
+				"lua-language-server",
+				"json-lsp",
+				"vtsls",
 			},
 		},
 		config = function(_, opts)
@@ -53,10 +54,19 @@ return {
 	},
 	{
 		"j-hui/fidget.nvim",
-		event = "BufReadPre",
+		event = "LspAttach",
 		config = function()
 			require("fidget").setup({})
 		end,
+	},
+	{
+		"folke/lazydev.nvim",
+		ft = "lua",
+		opts = {
+			library = {
+				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+			},
+		},
 	},
 	{
 		"neovim/nvim-lspconfig",
@@ -64,290 +74,163 @@ return {
 		event = "BufReadPre",
 		dependencies = {
 			"williamboman/mason.nvim",
-			"williamboman/mason-lspconfig.nvim",
-			"folke/neodev.nvim",
+			"folke/lazydev.nvim",
 		},
 		config = function()
-			local function disable_formatting(client)
-				client.server_capabilities.documentFormattingProvider = false
-				client.server_capabilities.documentRangeFormattingProvider = false
-			end
+			-- LspAttach autocmd for server-specific keymaps and settings
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
+				callback = function(ev)
+					local client = vim.lsp.get_client_by_id(ev.data.client_id)
+					if not client then
+						return
+					end
 
-			local servers = {
-				vue_ls = {
-					init_options = {
-						vue = {
-							hybridMode = true,
-						},
-					},
-					filetypes = { "vue" },
-					on_attach = function(client, bufnr)
-						disable_formatting(client) -- Disable volar formatting
-					end,
-				},
-				vtsls = {
-					filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact", "vue" },
-					cmd = { "vtsls", "--stdio" },
-					on_attach = function(client, bufnr)
-						-- Disable formatting for Vue files (use conform.nvim instead)
-						if vim.bo[bufnr].filetype == "vue" then
-							client.server_capabilities.documentFormattingProvider = false
-							client.server_capabilities.documentRangeFormattingProvider = false
-						end
-					end,
-					settings = {
-						complete_function_calls = true,
-						vtsls = {
-							enableMoveToFileCodeAction = true,
-							autoUseWorkspaceTsdk = true,
-							experimental = {
-								maxInlayHintLength = 30,
-								completion = {
-									enableServerSideFuzzyMatch = true,
-								},
-							},
-						},
-						typescript = {
-							updateImportsOnFileMove = { enabled = "always" },
-							suggest = {
-								completeFunctionCalls = true,
-							},
-							inlayHints = {
-								enumMemberValues = { enabled = true },
-								functionLikeReturnTypes = { enabled = true },
-								parameterNames = { enabled = "literals" },
-								parameterTypes = { enabled = true },
-								propertyDeclarationTypes = { enabled = true },
-								variableTypes = { enabled = false },
-							},
-						},
-					},
-				},
-				marksman = {
-					filetypes = { "md" },
-				},
-				-- tailwindcss = {},
-				html = {
-					filetypes = { "html" },
-					init_options = {
-						configurationSection = { "html", "css", "javascript" },
-						embeddedLanguages = {
-							css = true,
-							javascript = true,
-						},
-					},
-					settings = {
-						html = {
-							suggest = {
-								completion = {
-									enabled = true,
-									triggerCharacter = "<",
-								},
-							},
-						},
-					},
-				},
-				cssls = {
-					filetypes = { "css", "scss", "less" },
-					settings = {
-						["css.validate"] = true,
-					},
-				},
-				lua_ls = {
-					-- on_attach = on_attach,
-					settings = {
-						Lua = {
-							diagnostics = {
-								globals = { "vim", "use" },
-							},
-							runtime = {
-								version = "LuaJIT",
-								path = vim.split(package.path, ";"),
-							},
-							completion = {
-								keywordSnippet = "Replace",
-							},
-							hint = {
-								enable = true,
-								setType = false,
-								paramType = true,
-								paramName = "Disable",
-								semicolon = "Disable",
-								arrayIndex = "Disable",
-							},
-							workspace = {
-								checkThirdParty = false,
-								library = {
-									[vim.fn.expand("$VIMRUNTIME/lua")] = true,
-									[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
-								},
-							},
-						},
-					},
-				},
-				rust_analyzer = {
-					settings = {
-						["rust-analyzer"] = {
-							cargo = {
-								allFeatures = true,
-								loadOutDirsFromCheck = true,
-								runBuildScripts = true,
-							},
-							checkOnSave = {
-								allFeatures = true,
-								command = "clippy",
-								extraArgs = { "--no-deps" },
-							},
-							procMacro = {
-								enable = true,
-								ignored = {
-									["async-trait"] = { "async_trait" },
-									["napi-derive"] = { "napi" },
-									["async-recursion"] = { "async_recursion" },
-								},
-							},
-						},
-					},
-				},
-				clangd = {
-					on_attach = function(client, bufnr)
-						vim.api.nvim_buf_set_keymap(
-							bufnr,
-							"n",
-							"K",
-							"<cmd>lua vim.lsp.buf.hover()<CR>",
-							{ noremap = true, silent = true }
-						)
+					-- clangd: disable signature help (conflicts with other plugins)
+					if client.name == "clangd" then
 						client.server_capabilities.signatureHelpProvider = false
-					end,
-				},
-				eslint = {
-					settings = {
-						rootPath = vim.fn.getcwd(),
-					},
-					on_attach = function(client, bufnr)
-						vim.api.nvim_create_autocmd("BufWritePre", {
-							buffer = bufnr,
-							callback = function()
-								if vim.fn.exists(":EslintFixAll") > 0 then
-									vim.cmd("EslintFixAll")
-								end
-							end,
-						})
-					end,
-				},
-				antlersls = {
-					filetypes = { "antlers", "html" },
-					settings = {
-						antlers = {
-							formatFrontMatter = true,
-						},
-					},
-					root_dir = function(fname)
-						return vim.fs.root(fname, { "composer.json", ".git" }) or vim.fs.dirname(fname)
-					end,
-				},
-				intelephense = {
-					filetypes = { "php", "blade" },
-					settings = {
-						intelephense = {
-							files = {
-								maxSize = 5000000, -- 5MB file size limit
-							},
-							stubs = {
-								"apache",
-								"bcmath",
-								"bz2",
-								"calendar",
-								"com_dotnet",
-								"Core",
-								"ctype",
-								"curl",
-								"date",
-								"dba",
-								"dom",
-								"enchant",
-								"exif",
-								"FFI",
-								"fileinfo",
-								"filter",
-								"fpm",
-								"ftp",
-								"gd",
-								"gettext",
-								"gmp",
-								"hash",
-								"iconv",
-								"imap",
-								"intl",
-								"json",
-								"ldap",
-								"libxml",
-								"mbstring",
-								"meta",
-								"mysqli",
-								"oci8",
-								"odbc",
-								"openssl",
-								"pcntl",
-								"pcre",
-								"PDO",
-								"pdo_ibm",
-								"pdo_mysql",
-								"pdo_pgsql",
-								"pdo_sqlite",
-								"pgsql",
-								"Phar",
-								"posix",
-								"pspell",
-								"readline",
-								"Reflection",
-								"session",
-								"shmop",
-								"SimpleXML",
-								"snmp",
-								"soap",
-								"sockets",
-								"sodium",
-								"SPL",
-								"sqlite3",
-								"standard",
-								"superglobals",
-								"sysvmsg",
-								"sysvsem",
-								"sysvshm",
-								"tidy",
-								"tokenizer",
-								"xml",
-								"xmlreader",
-								"xmlrpc",
-								"xmlwriter",
-								"xsl",
-								"Zend OPcache",
-								"zip",
-								"zlib",
-								"wordpress",
-								"woocommerce",
-								"acf-pro",
-								"wordpress-globals",
-								"wp-cli",
-								"polylang",
-								"laravel",
+					end
+				end,
+			})
+
+			-- vtsls with Vue support
+			local vue_typescript_plugin_path = vim.fn.stdpath("data")
+				.. "/mason/packages/vue-language-server/node_modules/@vue/language-server"
+
+			vim.lsp.config.vtsls = {
+				filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact", "vue" },
+				settings = {
+					vtsls = {
+						tsserver = {
+							globalPlugins = {
+								{
+									name = "@vue/typescript-plugin",
+									location = vue_typescript_plugin_path,
+									languages = { "vue" },
+									configNamespace = "typescript",
+									enableForWorkspaceTypeScriptVersions = true,
+								},
 							},
 						},
 					},
 				},
-				lemminx = {},
-				jsonls = {},
 			}
 
-			-- Register server configurations with vim.lsp.config
-			for lsp, config in pairs(servers) do
-				vim.lsp.config[lsp] = config
-			end
+			vim.lsp.config.vue_ls = {
+				filetypes = { "vue" },
+			}
 
-			-- Enable all configured servers
-			vim.lsp.enable(vim.tbl_keys(servers))
+			vim.lsp.config.marksman = {
+				filetypes = { "markdown" },
+			}
+
+			vim.lsp.config.html = {
+				filetypes = { "html" },
+				init_options = {
+					configurationSection = { "html", "css", "javascript" },
+					embeddedLanguages = {
+						css = true,
+						javascript = true,
+					},
+				},
+				settings = {
+					html = {
+						suggest = {
+							completion = {
+								enabled = true,
+								triggerCharacter = "<",
+							},
+						},
+					},
+				},
+			}
+
+			vim.lsp.config.cssls = {
+				filetypes = { "css", "scss", "less" },
+				settings = {
+					css = { validate = true },
+					scss = { validate = true },
+					less = { validate = true },
+				},
+			}
+
+			vim.lsp.config.lua_ls = {
+				settings = {
+					Lua = {
+						diagnostics = {
+							globals = { "vim" },
+						},
+						runtime = {
+							version = "LuaJIT",
+						},
+						completion = {
+							keywordSnippet = "Replace",
+						},
+						hint = {
+							enable = true,
+							setType = false,
+							paramType = true,
+							paramName = "Disable",
+							semicolon = "Disable",
+							arrayIndex = "Disable",
+						},
+						workspace = {
+							checkThirdParty = false,
+						},
+					},
+				},
+			}
+
+			vim.lsp.config.rust_analyzer = {
+				settings = {
+					["rust-analyzer"] = {
+						cargo = {
+							allFeatures = true,
+							loadOutDirsFromCheck = true,
+							runBuildScripts = true,
+						},
+						checkOnSave = {
+							allFeatures = true,
+							command = "clippy",
+							extraArgs = { "--no-deps" },
+						},
+						procMacro = {
+							enable = true,
+						},
+					},
+				},
+			}
+
+			vim.lsp.config.clangd = {}
+
+			vim.lsp.config.eslint = {}
+
+			vim.lsp.config.antlersls = {
+				filetypes = { "antlers", "html" },
+			}
+
+			vim.lsp.config.intelephense = {
+				filetypes = { "php", "blade" },
+			}
+
+			vim.lsp.config.lemminx = {}
+			vim.lsp.config.jsonls = {}
+
+			vim.lsp.enable({
+				"vtsls",
+				"vue_ls",
+				"marksman",
+				"html",
+				"cssls",
+				"lua_ls",
+				"rust_analyzer",
+				"clangd",
+				"eslint",
+				"antlersls",
+				"intelephense",
+				"lemminx",
+				"jsonls",
+			})
 		end,
 	},
 }
