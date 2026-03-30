@@ -12,7 +12,7 @@ return {
 				javascriptreact = { "eslint_d", "prettier" },
 				typescriptreact = { "eslint_d", "prettier" },
 				vue = { "eslint_d", "prettier" },
-				rust = { "rust-analyser" },
+				rust = { "rust-analyzer" },
 				svelte = { "prettier" },
 				css = { "prettier" },
 				html = { "prettier" },

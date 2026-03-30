@@ -19,8 +19,8 @@ return {
 					[".*/hypr/.+%.conf"] = "hyprlang",
 					["%.env%.[%w_.-]+"] = "sh",
 					[".*%.blade%.php"] = "blade",
-					[".*%.antlers%.html$"] = "antlers",
-					[".*%.antlers%.php$"] = "antlers",
+					[".*%.antlers%.html"] = "antlers",
+					[".*%.antlers%.php"] = "antlers",
 				},
 			})
 
