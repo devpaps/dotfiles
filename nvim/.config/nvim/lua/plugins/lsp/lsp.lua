@@ -77,11 +77,47 @@ return {
 			"folke/lazydev.nvim",
 		},
 		config = function()
+			-- Configure diagnostics with v0.12 enhancements
+			vim.diagnostic.config({
+				virtual_text = {
+					prefix = "●", -- or "▎", "●", "■"
+					spacing = 2,
+					severity = vim.diagnostic.severity.WARN, -- Only show virtual text for warn and above
+				},
+				signs = {
+					text = {
+						[vim.diagnostic.severity.ERROR] = "✖",
+						[vim.diagnostic.severity.WARN] = "⚠",
+						[vim.diagnostic.severity.HINT] = "󰌶",
+						[vim.diagnostic.severity.INFO] = "ℹ",
+					},
+					linehl = {
+						[vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+						[vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+					},
+					numhl = {
+						[vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+						[vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+					},
+				},
+				underline = {
+					severity = vim.diagnostic.severity.WARN, -- Underline errors and warnings
+				},
+				update_in_insert = false, -- Don't update diagnostics while in insert mode
+				float = {
+					border = "rounded",
+					source = "always", -- Always show error source
+					header = "Diagnostics",
+					prefix = "● ",
+				},
+			})
+
 			-- LspAttach autocmd for server-specific keymaps and settings
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
 				callback = function(ev)
 					local client = vim.lsp.get_client_by_id(ev.data.client_id)
+					local bufnr = ev.buf
 					if not client then
 						return
 					end
@@ -89,6 +125,16 @@ return {
 					-- clangd: disable signature help (conflicts with other plugins)
 					if client.name == "clangd" then
 						client.server_capabilities.signatureHelpProvider = false
+					end
+
+					-- Enable code lenses for all servers that support it
+					if client.supports_method("textDocument/codeLens") then
+						vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold" }, {
+							buffer = bufnr,
+							callback = function()
+								vim.lsp.codelens.refresh()
+							end,
+						})
 					end
 				end,
 			})
@@ -114,10 +160,14 @@ return {
 						},
 					},
 				},
+				-- v0.12: Enable linked editing for paired tags (HTML/Vue)
+				linkedEditingRange = true,
 			}
 
 			vim.lsp.config.vue_ls = {
 				filetypes = { "vue" },
+				-- v0.12: Enable linked editing for Vue templates
+				linkedEditingRange = true,
 			}
 
 			vim.lsp.config.marksman = {
@@ -143,6 +193,8 @@ return {
 						},
 					},
 				},
+				-- v0.12: Enable linked editing for HTML paired tags
+				linkedEditingRange = true,
 			}
 
 			vim.lsp.config.cssls = {
@@ -189,13 +241,18 @@ return {
 							loadOutDirsFromCheck = true,
 							runBuildScripts = true,
 						},
-						checkOnSave = {
-							allFeatures = true,
-							command = "clippy",
-							extraArgs = { "--no-deps" },
-						},
+						checkOnSave = true,
 						procMacro = {
 							enable = true,
+						},
+						-- v0.12: Enable various LSP capabilities for better code lens display
+						lens = {
+							enable = true,
+							debug = true,
+							implementations = true,
+							methodReferences = true,
+							references = true,
+							run = true,
 						},
 					},
 				},

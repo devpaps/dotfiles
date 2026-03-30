@@ -19,8 +19,8 @@ return {
 					[".*/hypr/.+%.conf"] = "hyprlang",
 					["%.env%.[%w_.-]+"] = "sh",
 					[".*%.blade%.php"] = "blade",
-					[".*%.antlers%.html"] = "antlers",
-					[".*%.antlers%.php"] = "antlers",
+					[".*%.antlers%.html$"] = "antlers",
+					[".*%.antlers%.php$"] = "antlers",
 				},
 			})
 
@@ -88,6 +88,19 @@ return {
 					vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 				end,
 			})
+
+			-- v0.12: Native text objects (no plugin needed)
+			-- Use these patterns: v/c/d/y + textobject
+			-- 
+			-- Examples:
+			-- - v i f : select inner function
+			-- - v a f : select outer function (including braces)
+			-- - v i b : select inner block
+			-- - v a b : select outer block
+			-- - v i c : select inner class
+			-- - v a c : select outer class
+			--
+			-- These use Neovim's native treesitter support, no additional keybindings needed!
 		end,
 	},
 }

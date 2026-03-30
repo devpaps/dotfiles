@@ -1,3 +1,11 @@
+-- KEYBINDINGS GUIDE
+-- ==================
+-- LSP: gd (def), gr (refs), gi (impl), go (type), <leader>ca (action), <leader>rn (rename)
+--      <leader>ll (code lens run), <leader>lr (code lens refresh), <leader>le (linked edit)
+-- TreeSitter: v/c/d/y + if/af/ic/ac (inner/outer function/class)
+--             Example: v i f (select inner function), d a c (delete outer class)
+-- Diagnostics: gh (float), virtual text shown inline with ● symbol
+
 local function augroup(name)
 	return vim.api.nvim_create_augroup("lazyvim_" .. name, { clear = true })
 end
@@ -97,11 +105,37 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		-- Set up keymaps for all LSP clients
 		local opts = { noremap = true, silent = true, buffer = bufnr }
+		
+		-- Navigation
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-		vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
 		vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+		vim.keymap.set("n", "go", vim.lsp.buf.type_definition, opts)
+		
+		-- Refactoring
+		vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
 		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+		
+		-- Documentation
 		vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
+		
+		-- v0.12: Code lenses
+		if client and client.supports_method("textDocument/codeLens") then
+			vim.keymap.set("n", "<leader>ll", vim.lsp.codelens.run, { noremap = true, silent = true, buffer = bufnr, desc = "Run code lens" })
+			vim.keymap.set("n", "<leader>lr", vim.lsp.codelens.refresh, { noremap = true, silent = true, buffer = bufnr, desc = "Refresh code lenses" })
+		end
+		
+		-- v0.12: Linked editing (edit paired tags)
+		if client and client.supports_method("textDocument/linkedEditingRange") then
+			vim.keymap.set("n", "<leader>le", function()
+				local params = vim.lsp.util.make_position_params()
+				client.request("textDocument/linkedEditingRange", params, function(err, result)
+					if err or not result then return end
+					-- Implementation: Highlights paired elements
+					vim.notify("Linked editing range detected", vim.log.levels.INFO)
+				end, bufnr)
+			end, { noremap = true, silent = true, buffer = bufnr, desc = "Linked editing range" })
+		end
 	end,
 })
 

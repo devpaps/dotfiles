@@ -10,11 +10,6 @@ keymap("n", "<leader>rc", ":e $MYVIMRC<CR>", opts)
 -- Go to dashboard
 keymap("n", "<leader>d", "<cmd>Alpha<CR>", opts)
 
--- Resession
-keymap("n", "<leader>ss", ":lua require('resession').save()<CR>", opts)
-keymap("n", "<leader>sl", ":lua require('resession').load()<CR>", opts)
-keymap("n", "<leader>sd", ":lua require('resession').delete()<CR>", opts)
-
 -- Buffers
 keymap("n", "<Tab>", ":BufferLineCycleNext<CR>", opts)
 keymap("n", "<S-Tab>", ":BufferLineCyclePrev<CR>", opts)
@@ -33,10 +28,9 @@ keymap("v", ">", ">gv", opts)
 -- NeoTree
 keymap("n", "<leader>e", ":Neotree filesystem toggle<CR>", opts)
 
-keymap("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts)
-keymap("n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
-keymap("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts)
-keymap("n", "go", "<cmd>Telescope lsp_type_definitions<CR>", opts)
+-- LSP keybindings are now consolidated in LspAttach callback (autocmds.lua)
+-- This includes: gd (definition), gr (references), gi (implementation), go (type_definition)
+
 keymap("n", "<leader>f", "<cmd>lua require('fzf-lua').files()<CR>", { silent = true })
 keymap("n", "<leader>g", "<cmd>lua require('fzf-lua').live_grep()<CR>", { silent = true })
 
@@ -52,10 +46,6 @@ keymap(
 	[[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
 	{ desc = "Search and Replace Word Under Cursor" }
 )
-
--- keymap("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>", opts)
--- keymap("n", "<M-h>", "<cmd>silent !tmux-sessionizer -s 0 --vsplit<CR>", opts)
--- keymap("n", "<M-H>", "<cmd>silent !tmux neww tmux-sessionizer -s 0<CR>", opts)
 
 -- Resize with arrows
 keymap("n", "<C-Down>", ":resize -2<CR>", { desc = "Resize Horizontal Split Down" })
