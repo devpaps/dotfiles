@@ -1,5 +1,5 @@
 <div align="center">
-  
+
 # -- devpaps dotfiles --
 
 This repository contains my personal dotfiles. They are stored here for convenience and can be used by anyone interested. However, they are tailored to my own needs and preferences.
@@ -7,9 +7,9 @@ This repository contains my personal dotfiles. They are stored here for convenie
 ![platform](https://img.shields.io/badge/platform-Linux-blue)
 ![last commit](https://img.shields.io/github/last-commit/devpaps/dotfiles)
 
-![neovim](https://imgur.com/Jq6r1sB.png)
+![neovim](https://imgur.com/AshfyFL)
 
-![neovim - rust](https://imgur.com/f0XOOqS.png)
+![neovim - rust](https://imgur.com/VRepXm1)
 
 # Contributing
 
