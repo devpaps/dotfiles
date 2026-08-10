@@ -7,9 +7,9 @@ This repository contains my personal dotfiles. They are stored here for convenie
 ![platform](https://img.shields.io/badge/platform-Linux-blue)
 ![last commit](https://img.shields.io/github/last-commit/devpaps/dotfiles)
 
-![neovim](https://imgur.com/AshfyFL)
+![neovim](https://imgur.com/AshfyFL.png)
 
-![neovim - rust](https://imgur.com/VRepXm1)
+![neovim - rust](https://imgur.com/VRepXm1.png)
 
 # Contributing
 
