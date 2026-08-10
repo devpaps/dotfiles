@@ -21,21 +21,26 @@ set $term kitty
 
 # Your preferred application launcher
 set $menu pgrep rofi >/dev/null 2>&1 && killall rofi || rofi -show drun -monitor "$(swaymsg -t get_outputs | jq -r '.[] | select(.focused).name')"
-# set $lockman exec bash ~/.config/sway/lockman.sh
-set $lockman exec hyprlock
+set $lockman bash ~/.config/sway/lockman.sh
+# set $lockman hyprlock
 
 # ------------------------
 # 2. WINDOW RULES
 # ------------------------
 
 # Floating window rules
-for_window 	[app_id="Calculator"] floating 	    enable
-for_window  [app_id="kitty"]      opacity 0.95
-for_window  [title="Friends List"]      floating      enable
-for_window  [title="File Operation Progress"] floating     enable
-for_window  [title="Rename"] floating     enable
-# Floating gnome-calculator
-for_window [app_id="gnome-calculator"] floating enable
+for_window [app_id="Calculator"] floating enable
+for_window [app_id="kitty"] opacity 0.98
+for_window [app_id="ghostty"] opacity 0.98
+for_window [title="Friends List"] floating enable
+for_window [title="All Files"] floating enable, resize set 1500 900
+for_window [title="Open Files"] floating enable, resize set 1500 900
+for_window [title="File Operation Progress"] floating enable
+for_window [title="Rename"] floating enable
+for_window [app_id="mpv"] inhibit_idle fullscreen
+# QB64 Phoenix Edition
+for_window [class="qb64pe"] border normal, floating enable, resize set 1100 750
+for_window [app_id="qb64pe"] border normal, floating enable, resize set 1100 750
 
 # ------------------------
 # 3. KEY BINDINGS
@@ -50,12 +55,24 @@ bindsym XF86MonBrightnessDown exec light -U 5
 bindsym shift+XF86MonBrightnessUp exec light -A 25
 bindsym shift+XF86MonBrightnessDown exec light -U 25
 
+# Full screen screenshot → edit with Satty
+bindsym $mod+shift+s exec grim - | satty --filename - --output-filename "$HOME/Pictures/Screenshots/screenshot-$(date +'%Y-%m-%d-%H-%M-%S-%N').png" 
+
+# Selected area → edit with Satty
+bindsym $mod+control+s exec grim -g "$(slurp)" - | satty --filename - --output-filename "$HOME/Pictures/Screenshots/screenshot-$(date +'%Y-%m-%d-%H-%M-%S-%N').png"
+
+# Volume control keybindings
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
 # ------------------------
 # 4. OUTPUT & WALLPAPER CONFIGURATION
 # ------------------------
 
 # Set default wallpaper (change the path to your preferred wallpaper)
-set $background ~/Wallpaper/mount-fuji.jpg
+set $background ~/Wallpaper/wallhaven-45ok38.jpg
 output * bg $background fill
 
 # Laptop below primary monitor
@@ -63,7 +80,7 @@ output * bg $background fill
 # output eDP-1 pos 0 1440 res 1920x1200 scale 1
 
 # Laptop to the left of primary monitor
-output DP-7 pos 1920 0 res 2560x1440 scale 1
+# output DP-7 pos 1920 0 res 2560x1440 scale 1
 output DP-8 pos 1920 0 res 2560x1440 scale 1
 output eDP-1 pos 0 0 res 1920x1200 scale 1
 
@@ -73,20 +90,9 @@ output eDP-1 pos 0 0 res 1920x1200 scale 1
 
 # Set gaps and layout preferences
 smart_gaps true
-smart_borders true
+smart_borders on
 gaps inner 10 
 gaps outer 5
-
-# Fullscreen and floating window settings
-# for_window [shell="^.*"] inhibit_idle fullscreen
-# for_window [class="^.*"] inhibit_idle fullscreen
-# for_window [app_id="^.*"] inhibit_idle fullscreen
-
-# Full screen screenshot → edit with Satty
-bindsym $mod+shift+s exec grim - | satty --filename - --output-filename "$HOME/Pictures/Screenshots/screenshot-$(date +'%Y-%m-%d-%H-%M-%S-%N').png" 
-
-# Selected area → edit with Satty
-bindsym $mod+control+s exec grim -g "$(slurp)" - | satty --filename - --output-filename "$HOME/Pictures/Screenshots/screenshot-$(date +'%Y-%m-%d-%H-%M-%S-%N').png"
 
 # ------------------------
 # 6. INPUT CONFIGURATION
@@ -101,15 +107,6 @@ input "1267:12693:ELAN0678:00_04F3:3195_Touchpad" {
   pointer_accel 0.35
 }
 
-# Volume control keybindings
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
-
-
-
-
 # ------------------------
 # 7. WINDOW BORDER & TITLE CONFIGURATION
 # ------------------------
@@ -117,7 +114,7 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 # Set window border and titlebar preferences
 default_border pixel 1
 default_floating_border pixel 1
-font pango:monospace 1
+font pango:monospace 11
 titlebar_padding 1
 titlebar_border_thickness 0
 
@@ -137,6 +134,7 @@ bindsym $mod+d exec $menu
 floating_modifier $mod normal
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+popup_during_fullscreen smart
 
 # Define directional focus and move keybindings
 bindsym $mod+$left focus left
@@ -183,7 +181,7 @@ bindsym $mod+t layout toggle split
 bindsym $mod+f fullscreen
 bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
-bindsym $mod+a focus parent
+bindsym $mod+a exec voxtype record start; mode "voxtype_recording"
 
 # Open file manager
 bindsym $mod+e exec thunar
@@ -194,14 +192,14 @@ bindsym $mod+minus scratchpad show
 
 # Define resizing mode and keybindings
 mode "resize" {
-    bindsym $left resize shrink width 5 ppt
-    bindsym $down resize grow height 5 ppt
-    bindsym $up resize shrink height 5 ppt
-    bindsym $right resize grow width 5 ppt
-    bindsym Left resize shrink width 5 ppt
-    bindsym Down resize grow height 5 ppt
-    bindsym Up resize shrink height 5 ppt
-    bindsym Right resize grow width 5 ppt
+    bindsym $left resize shrink width 5 px or 5 ppt
+    bindsym $down resize grow height 5 px or 5 ppt
+    bindsym $up resize shrink height 5 px or 5 ppt 
+    bindsym $right resize grow width 5 px or 5 ppt
+    bindsym Left resize shrink width 5 px or 5 ppt
+    bindsym Down resize grow height 5 px or 5 ppt
+    bindsym Up resize shrink height 5 px or 5 ppt
+    bindsym Right resize grow width 5 px or 5 ppt
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
@@ -211,8 +209,9 @@ bindsym $mod+r mode "resize"
 exec --no-startup-id nm-applet --indicator
 exec --no-startup-id blueman-applet
 exec --no-startup-id pactl set-default-sink alsa_output.usb-Creative_Technology_Ltd_Sound_BlasterX_G1_00108378-00.analog-stereo
-exec --no-startup-id pactl set-default-source alsa_output.usb-USB_Microphone_Galder_V2_2018_06_26-00.analog-stereo
+exec --no-startup-id pactl set-default-source alsa_input.usb-USB_Microphone_Galder_V2_2018_06_26-00.analog-stereo
 exec hypridle
 
 # Include additional configuration files
 include /etc/sway/config.d/*
+include ~/.config/sway/conf.d/*.conf
