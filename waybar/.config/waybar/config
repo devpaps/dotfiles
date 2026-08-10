@@ -4,8 +4,10 @@
   "height": 28,
   "modules-left": [
     "sway/workspaces",
+    "sway/mode",
     "temperature",
-    "custom/spotify"
+    "custom/spotify",
+    "custom/voxtype"
   ],
   "modules-center": [
     "sway/window"
@@ -30,9 +32,21 @@
       "6": []
     }
   },
+  "custom/voxtype": {
+    "exec": "voxtype status --follow --format json",
+    "return-type": "json",
+    "format": "{icon}",
+    "format-icons": {
+      "idle": "\uf130",
+      "recording": "\uf111",
+      "transcribing": "\uf110",
+      "stopped": "\uf131"
+    },
+    "tooltip": true
+  },
   "custom/spotify": {
     "format": " {text}",
-    "interval": 1,
+    "interval": 3,
     "tooltip": true,
     "exec": "~/.config/waybar/spotify-status.sh",
     "return-type": "json"
@@ -42,7 +56,23 @@
     "format-alt": "{:%d/%m}",
     "interval": 60,
     "tooltip": true,
-    "tooltip-format": "{:%A, %B %d, %Y - %H:%M:%S}"
+    "tooltip-format": "<tt><span size='12pt'>{calendar}</span></tt>",
+    "calendar": {
+      "mode": "month",
+      "iso8601": true,
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#ffead3'><b>{}</b></span>",
+        "days": "<span color='#ecc6d9'><b>{}</b></span>",
+        "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+        "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+      }
+    },
+    "actions": {
+      "on-click-right": "mode",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }
   },
   "battery": {
     "design-capacity": false,
@@ -109,6 +139,7 @@
   },
   "temperature": {
     "hwmon-path": "/sys/class/hwmon/hwmon5/temp2_input",
+    // "thermal-zone": 2,
     "format": "{temperatureC}°C",
     "interval": 5,
     "tooltip": true,
