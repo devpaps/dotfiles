@@ -63,7 +63,7 @@ opt.listchars = {
 
 -- UI
 opt.laststatus = 3
-opt.cmdheight = 1
+opt.cmdheight = 0
 opt.showmatch = true -- Highlight matching brackets
 opt.matchtime = 3
 opt.pumblend = 10
