@@ -35,7 +35,6 @@ source <(fzf --zsh)
 alias icat="kitty +kitten icat"
 alias vz='NVIM_APPNAME=nvim-lazy nvim'  # LazyVim
 alias v="nvim"                          # New nvim config
-alias vp="NVIM_APPNAME=nvim-vim-pack nvim"  # Vim-Plug
 alias ls="eza --icons --group-directories-first"
 alias ll="eza --icons -lh --group-directories-first"
 alias lla="eza --icons -lah"
@@ -63,8 +62,8 @@ export XMODIFIERS=@im=ibus
 # Shortcuts
 # -------------------------------------------------------------------------------
 # Shortcut to dotfiles
-alias dot="vp $HOME/.dotfiles"
-alias zsh="vp $HOME/.zshrc"
+alias dot="v $HOME/.dotfiles"
+alias zsh="v $HOME/.zshrc"
 export FZF_CTRL_T_OPTS="--preview 'if [ -d {} ]; then tree -C {} | head -200; else ~/fzf-preview.sh {}; fi' --height=100% --bind page-up:preview-page-up,page-down:preview-page-down"
 
 # cdi shortcut for zoxide with fzf preview
