@@ -89,3 +89,18 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.formatoptions:remove({ "c", "r", "o" })
 	end,
 })
+
+vim.api.nvim_create_autocmd("PackChanged", {
+	desc = "Build telescope-fzf-native after install/update",
+	callback = function(ev)
+		local name, kind = ev.data.spec.name, ev.data.kind
+		if name == "telescope-fzf-native.nvim" and (kind == "install" or kind == "update") then
+			vim.notify("Building telescope-fzf-native (make)...", vim.log.levels.INFO)
+			vim.system({ "make" }, { cwd = ev.data.path }, function(obj)
+				if obj.code ~= 0 then
+					vim.notify("telescope-fzf-native build failed:\n" .. (obj.stderr or ""), vim.log.levels.ERROR)
+				end
+			end)
+		end
+	end,
+})
