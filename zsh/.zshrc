@@ -10,15 +10,21 @@ setopt INC_APPEND_HISTORY
 setopt HIST_IGNORE_SPACE
 setopt EXTENDED_HISTORY
 setopt HIST_EXPIRE_DUPS_FIRST
-setopt HIST_IGNORE_DUPS 
 setopt HIST_VERIFY
-setopt APPEND_HISTORY
 setopt SHARE_HISTORY
 
 # Completion configuration
-zstyle :compinstall filename '/home/devpaps/.zshrc'
-autoload -Uz compinit
-compinit
+autoload -Uz _zi
+(( ${+_comps} )) && _comps[zi]=_zi
+# autoload -Uz compinit
+# if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+#     compinit
+# else
+#     compinit -C
+# fi
+#
+# zstyle ':completion:*' file-list all
+# zstyle ':completion:*:*:*:*:*' menu select
 
 # FZF key bindings
 source <(fzf --zsh)
@@ -29,14 +35,18 @@ source <(fzf --zsh)
 alias icat="kitty +kitten icat"
 alias vz='NVIM_APPNAME=nvim-lazy nvim'  # LazyVim
 alias v="nvim"                          # New nvim config
-alias ls="eza"
-alias ll="eza -l"
-alias lla="eza -la"
+alias vp="NVIM_APPNAME=nvim-vim-pack nvim"  # Vim-Plug
+alias ls="eza --icons --group-directories-first"
+alias ll="eza --icons -lh --group-directories-first"
+alias lla="eza --icons -lah"
 alias lsd="eza --group-directories-first"
 alias la="eza -a"
 alias tn="tmux new -s"
 alias tl="tmux ls"
 alias ta="tmux attach -t"
+alias cdi='zi'
+alias tree='eza --tree --level=2'
+alias cd='z'
 
 #-------------------------------------------------------------------------------
 # Environment Variables
@@ -53,9 +63,21 @@ export XMODIFIERS=@im=ibus
 # Shortcuts
 # -------------------------------------------------------------------------------
 # Shortcut to dotfiles
-alias dt="v $HOME/.dotfiles"
-alias zs="v $HOME/.zshrc"
+alias dot="vp $HOME/.dotfiles"
+alias zsh="vp $HOME/.zshrc"
 export FZF_CTRL_T_OPTS="--preview 'if [ -d {} ]; then tree -C {} | head -200; else ~/fzf-preview.sh {}; fi' --height=100% --bind page-up:preview-page-up,page-down:preview-page-down"
+
+# cdi shortcut for zoxide with fzf preview
+export _ZO_FZF_OPTS="
+  --preview 'eza --tree --level=2 --color=always {2..}'
+  --preview-window=right:50%
+  --height=100%
+  --bind page-up:preview-page-up,page-down:preview-page-down
+"
+
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey "^E" edit-command-line
 
 #-------------------------------------------------------------------------------
 # Path Configuration
@@ -79,10 +101,7 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 # Tool Configurations
 #-------------------------------------------------------------------------------
 # NVM configuration
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-nvm use 22 >/dev/null 2>&1
+eval "$(fnm env --use-on-cd --shell zsh)"
 
 # Starship prompt
 eval "$(starship init zsh)"
@@ -97,7 +116,7 @@ export TODO_CUSTOM_FILE_PATH="$HOME/todos/todo.txt"
 alias switchgh="/home/devpaps/.dotfiles/git/switch-user.sh"
 
 # opencode
-export PATH=/home/devpaps/.opencode/bin:$PATH
+# export PATH=/home/devpaps/.opencode/bin:$PATH
 
 # GoLang
 export PATH=$PATH:$HOME/go/bin
@@ -105,6 +124,32 @@ export PATH=$PATH:$HOME/go/bin
 #Maven and Java
 export JAVA_HOME=/usr/lib/jvm/java-24-openjdk
 export PATH="$JAVA_HOME/bin:$PATH"
+
+# ARCHIVE EXTRACTION
+# usage: ex <file>
+function ex () {
+  if [ -f $1 ] ; then
+    case $1 in
+      *.tar.bz2)    tar xjf $1    ;;
+      *.tar.gz)     tar xzf $1    ;;
+      *.tar.xz)     tar xf $1     ;;
+      *.tar)        tar xf $1     ;;
+      *.tar.zst)    uzstd $1      ;;
+      *.bz2)        bunzip2 $1    ;;
+      *.rar)        unrar x $1    ;;
+      *.gz)         gunzip $1     ;;
+      *.tbz2)       tar xjf $1    ;;
+      *.tgz)        tar xzf $1    ;;
+      *.zip)        unzip $1      ;;
+      *.Z)          uncompress $1 ;;
+      *.7z)         7z x $1       ;;
+      *.deb)        ar x $1       ;;
+      *)    echo "'$1' cannot be extracted via ex()" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
 
 # Show aliases with fzf, i'm old :D
 function show-aliases() {
@@ -114,6 +159,16 @@ function show-aliases() {
     fi
 }
 
+# Bind the function to a key combination (Ctrl+Z followed by Ctrl+A)
 zle -N show-aliases
-bindkey '^X^A' show-aliases
+bindkey '^Z^A' show-aliases
 
+# opencode
+export PATH=/home/devpaps/.opencode/bin:$PATH
+
+# Lerd
+export PATH="/home/devpaps/.local/share/lerd/bin:$PATH"
+
+# Lerd completions
+fpath=(/home/devpaps/.local/share/zsh/site-functions $fpath)
+autoload -Uz compinit && compinit
