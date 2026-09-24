@@ -21,14 +21,9 @@ vim.keymap.set("i", "<c-space>", function()
 end)
 
 -- Projects
-vim.keymap.set(
-	"n",
-	"<leader>pp",
-	vim.schedule_wrap(function()
-		require("telescope").extensions.projects.projects({})
-	end),
-	{ desc = "Projects", noremap = true, silent = true }
-)
+vim.keymap.set("n", "<leader>pp", function()
+	require("projects").pick()
+end, { desc = "Projects", noremap = true, silent = true })
 
 keymap("n", "<leader>f", "<cmd>lua require('fzf-lua').files()<CR>", { silent = true })
 keymap("n", "<leader>g", "<cmd>lua require('fzf-lua').live_grep()<CR>", { silent = true })

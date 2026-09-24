@@ -16,7 +16,7 @@ dashboard.section.header.val = vim.split(logo, "\n")
 
 -- Buttons
 dashboard.section.buttons.val = {
-	dashboard.button("p", "  Projects", "<cmd> Telescope projects <cr>"),
+	dashboard.button("p", "  Projects", "<cmd>lua require('projects').pick()<CR>"),
 	dashboard.button("r", "  Recent files", "<cmd>FzfLua oldfiles<CR>"),
 	dashboard.button("c", "  Config", "<cmd>e $MYVIMRC<CR>"),
 	dashboard.button("l", "󰒲  Update plugins", "<cmd>lua vim.pack.update()<CR>"),

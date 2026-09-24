@@ -1,35 +1,35 @@
 {
   "plugins": {
     "CopilotChat.nvim": {
-      "rev": "f5171b9575279995205fde6a6c06c2632bb0b9d9",
+      "rev": "004ced055d8db59561cfcddc5f141ccd8d5a033b",
       "src": "https://github.com/CopilotC-Nvim/CopilotChat.nvim"
     },
     "alpha-nvim": {
-      "rev": "6c6a89d5b068b5251c8bdf0dd57bb921bcfeeb09",
+      "rev": "4ba26e41990c11620c96c0e1cff20eab65efde4a",
       "src": "https://github.com/goolord/alpha-nvim"
     },
     "conform.nvim": {
-      "rev": "619363c30309d29ffa631e67c8183f2a72caa373",
+      "rev": "016802de402556da54c36bd7359b441266b01cdd",
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "copilot.lua": {
-      "rev": "7e6723aabea044519462958ffcea68d7985c5ed0",
+      "rev": "f76a0a281de089e27b605ec8017093f1aab73b07",
       "src": "https://github.com/zbirenbaum/copilot.lua"
     },
     "fidget.nvim": {
-      "rev": "6f793b2bcd2d35e201c09520f698bb763220908a",
+      "rev": "9e0201673e08e997e7cf52afca5565c70bd117f3",
       "src": "https://github.com/j-hui/fidget.nvim"
     },
     "fzf-lua": {
-      "rev": "8671012a7b2a1648595952c655039d51fb301c14",
+      "rev": "13bb178a299f7493dd64427a58e61904c4b58ecb",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "gitsigns.nvim": {
-      "rev": "31d6fb2d618bca1482b9f274751ead5f03461408",
+      "rev": "070a5d7b985546cc57e1fc61e5bc507fecac6045",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "lazygit.nvim": {
-      "rev": "a04ad0dbc725134edbee3a5eea29290976695357",
+      "rev": "9ffc6103926718f7070fb4017694543cd7dc9718",
       "src": "https://github.com/kdheepak/lazygit.nvim"
     },
     "lualine.nvim": {
@@ -41,7 +41,7 @@
       "src": "https://github.com/williamboman/mason.nvim"
     },
     "neo-tree.nvim": {
-      "rev": "6679b9395526b52ddb2b137fcd5255dab71c5a58",
+      "rev": "162f9b953a692b559afe43e38d60afee81e8e79b",
       "src": "https://github.com/nvim-neo-tree/neo-tree.nvim"
     },
     "neovim": {
@@ -53,11 +53,11 @@
       "src": "https://github.com/nvimtools/none-ls-extras.nvim"
     },
     "none-ls.nvim": {
-      "rev": "01f8e62ea11603e59ad9ff7afcfa94fd183f76d6",
+      "rev": "c4b82bb63b13856ba4d6b971b7aad3bb38fc6fe2",
       "src": "https://github.com/nvimtools/none-ls.nvim"
     },
     "nui.nvim": {
-      "rev": "de740991c12411b663994b2860f1a4fd0937c130",
+      "rev": "10fc361835c856ba4233ef5ea135b919bf3dce97",
       "src": "https://github.com/MunifTanjim/nui.nvim"
     },
     "nvim-toggleterm.lua": {
@@ -65,7 +65,7 @@
       "src": "https://github.com/akinsho/nvim-toggleterm.lua"
     },
     "nvim-treesitter": {
-      "rev": "c9f9ed6c1892f629ea399f4ee7905f2686fa13f2",
+      "rev": "f603a2f4da48728f80257fb5fbb90145fd1dc173",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "nvim-ts-context-commentstring": {
@@ -73,7 +73,7 @@
       "src": "https://github.com/JoosepAlviste/nvim-ts-context-commentstring"
     },
     "nvim-web-devicons": {
-      "rev": "2ae6958df7ced50baac5035cec0c15799eedfbf7",
+      "rev": "58447c1fca354bbf184425e4a8d01deecbd6f3c4",
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
     "obsidian.nvim": {
@@ -84,9 +84,9 @@
       "rev": "74b06c6c75e4eeb3108ec01852001636d85a932b",
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
-    "project.nvim": {
-      "rev": "8c6bad7d22eef1b71144b401c9f74ed01526a4fb",
-      "src": "https://github.com/ahmedkhalf/project.nvim"
+    "render-markdown.nvim": {
+      "rev": "640a3ec6d538bad17c328be373c7cad0293d9589",
+      "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
     },
     "snipe.nvim": {
       "rev": "d2d196c335919767803f905d573ce66340e33ee6",
@@ -105,11 +105,11 @@
       "src": "https://github.com/nvim-telescope/telescope-ui-select.nvim"
     },
     "telescope.nvim": {
-      "rev": "427b576c16792edad01a92b89721d923c19ad60f",
+      "rev": "40aedd8a68c78a656a10a8d62d80c54af59420fb",
       "src": "https://github.com/nvim-telescope/telescope.nvim"
     },
     "thorn.nvim": {
-      "rev": "3653d1508e605fe87ec174e8c2ad0f36ce9844f3",
+      "rev": "e7074d253db38d76c5b709ac29f22c5e508da9d3",
       "src": "https://github.com/jpwol/thorn.nvim"
     },
     "which-key.nvim": {

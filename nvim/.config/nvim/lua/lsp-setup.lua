@@ -1,6 +1,21 @@
 -- nvim-lspconfig is not needed with Neovim 0.11+ using vim.lsp.config API
 -- All servers are configured manually below using vim.lsp.config
 
+vim.diagnostic.config({
+	severity_sort = true,
+	underline = true,
+	signs = true,
+	virtual_text = {
+		spacing = 2,
+		source = "if_many",
+		prefix = "●",
+	},
+	float = {
+		border = "rounded",
+		source = true,
+	},
+})
+
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
 	callback = function(ev)
@@ -16,6 +31,27 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "K", function()
 			vim.lsp.buf.hover({ border = "rounded", max_width = 80 })
 		end, { buffer = ev.buf, desc = "Hover documentation" })
+
+		vim.keymap.set("n", "<leader>ll", vim.diagnostic.setloclist, { buffer = ev.buf, desc = "Diagnostics loclist" })
+		vim.keymap.set("n", "<leader>lq", vim.diagnostic.setqflist, { buffer = ev.buf, desc = "Diagnostics quickfix" })
+
+		if client:supports_method("textDocument/codeLens") then
+			vim.keymap.set("n", "grx", vim.lsp.codelens.run, { buffer = ev.buf, desc = "Run code lens" })
+		end
+
+		if client:supports_method("workspace/diagnostic") and vim.lsp.buf.workspace_diagnostics then
+			vim.keymap.set("n", "<leader>lD", vim.lsp.buf.workspace_diagnostics, {
+				buffer = ev.buf,
+				desc = "Workspace diagnostics",
+			})
+		end
+
+		if client:supports_method("textDocument/inlineCompletion") and vim.lsp.inline_completion then
+			vim.lsp.inline_completion.enable(true, { bufnr = ev.buf })
+			vim.keymap.set("i", "<C-Right>", function()
+				vim.lsp.inline_completion.get()
+			end, { buffer = ev.buf, desc = "Inline completion" })
+		end
 
 		-- Native LSP completion
 		if client:supports_method("textDocument/completion") then
@@ -45,7 +81,26 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			-- autotrigger = false: copilot.lua auto_trigger and LSP autotrigger
 			-- conflict over TextChangedI events. Copilot handles auto suggestions;
 			-- use <C-Space> to manually open the LSP completion popup.
-			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = false })
+			vim.lsp.completion.enable(true, client.id, ev.buf, {
+				autotrigger = false,
+				cmp = function(a, b)
+					local input = string.lower(vim.fn.strpart(vim.fn.getline("."), 0, vim.fn.col(".") - 1):match("%k*$") or "")
+					local a_label = string.lower(a.label or "")
+					local b_label = string.lower(b.label or "")
+
+					local a_prefix = input ~= "" and vim.startswith(a_label, input)
+					local b_prefix = input ~= "" and vim.startswith(b_label, input)
+					if a_prefix ~= b_prefix then
+						return a_prefix
+					end
+
+					if #a_label ~= #b_label then
+						return #a_label < #b_label
+					end
+
+					return a_label < b_label
+				end,
+			})
 		end
 	end,
 })

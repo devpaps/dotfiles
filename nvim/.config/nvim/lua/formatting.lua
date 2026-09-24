@@ -1,7 +1,4 @@
 -- Formatting with conform.nvim
-local pack_path = vim.fn.stdpath("data") .. "/site/pack/core/opt/conform.nvim"
-vim.opt.rtp:prepend(pack_path)
-
 local conform = require("conform")
 
 conform.setup({
@@ -41,8 +38,3 @@ vim.keymap.set({ "n", "v" }, "<C-f>", function()
 		timeout_ms = 2000,
 	})
 end, { desc = "Format file or range (in visual mode)" })
-
--- Manually trigger completion (C-y is already the native key to SELECT an item)
-vim.keymap.set("i", "<C-Space>", function()
-	vim.lsp.completion.get()
-end, { desc = "Trigger LSP completion" })

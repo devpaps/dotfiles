@@ -20,6 +20,7 @@ local ensure_installed = {
 	"git_config",
 	"c",
 	"css",
+	"cpp",
 	"diff",
 	"blade",
 	"html",
@@ -45,7 +46,10 @@ local ensure_installed = {
 }
 treesitter.install(ensure_installed)
 
-local patterns = ensure_installed
+local patterns = vim.list_extend(vim.deepcopy(ensure_installed), {
+	"javascriptreact",
+	"typescriptreact",
+})
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = patterns,
 	callback = function(args)

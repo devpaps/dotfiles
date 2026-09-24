@@ -121,8 +121,15 @@ alias switchgh="/home/devpaps/.dotfiles/git/switch-user.sh"
 export PATH=$PATH:$HOME/go/bin
 
 #Maven and Java
-export JAVA_HOME=/usr/lib/jvm/java-24-openjdk
+# export JAVA_HOME=/usr/lib/jvm/java-24-openjdk
+# export PATH="$JAVA_HOME/bin:$PATH"
+export JAVA_HOME="/usr/lib/jvm/java-openjdk"
 export PATH="$JAVA_HOME/bin:$PATH"
+
+# Android
+export ANDROID_HOME="$HOME/Android/Sdk"
+export ANDROID_SDK_ROOT="$ANDROID_HOME"
+export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$PATH"
 
 # ARCHIVE EXTRACTION
 # usage: ex <file>
@@ -171,3 +178,8 @@ export PATH="/home/devpaps/.local/share/lerd/bin:$PATH"
 # Lerd completions
 fpath=(/home/devpaps/.local/share/zsh/site-functions $fpath)
 autoload -Uz compinit && compinit
+
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
