@@ -31,6 +31,7 @@ local function load_mason()
 		"eslint_d",
 		"prettier",
 		"prettierd",
+		"blade-formatter",
 		"rust-analyzer",
 		"vue-language-server",
 		"antlers-language-server",

@@ -28,9 +28,6 @@ if ok then
 					"html",
 				},
 			}),
-			null_ls.builtins.formatting.blade_formatter.with({
-				filetypes = { "blade" },
-			}),
 		},
 	})
 else
